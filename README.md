@@ -1,7 +1,7 @@
 # Enterprise-App-Development---Group-1
 
 # Introduction
-Introducing "CinciTraffic Alert" – your essential app for staying informed about traffic incidents and disruptions in the Cincinnati area. With CinciTraffic Alert, you can:
+Introducing "CinciAlert" – your essential app for staying informed about traffic incidents and disruptions in the Cincinnati area. With CinciTraffic Alert, you can:
 
 Navigate Cincinnati with confidence by receiving real-time alerts about traffic accidents, road closures, and other hindrances to your journey.
 
@@ -9,7 +9,7 @@ Access a comprehensive database of traffic benchmarks, sourced from local author
 
 Experience an efficient and stress-free commute as you make informed decisions based on up-to-the-minute traffic information.
 
-Explore CinciTraffic Alert today and take control of your Cincinnati commute like never before!
+Explore CinciAlert today and take control of your Cincinnati commute like never before!
 
 # Storyboard
 [//]: # (insert image file here)
@@ -31,5 +31,5 @@ Explore CinciTraffic Alert today and take control of your Cincinnati commute lik
 - Development Team: 
 
 # Weekly Team Meetings
-The CinciTraffic Alert team will meet every Sunday night on Microsoft Teams.
+The CinciAlert team will meet every Sunday night on Microsoft Teams.
 
