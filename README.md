@@ -26,9 +26,9 @@ Explore CinciTraffic Alert today and take control of your Cincinnati commute lik
 
 
 # Scrum Roles
-Product Owner: 
-Scrum Master:
-Development Team: 
+- Product Owner: 
+- Scrum Master:
+- Development Team: 
 
 # Weekly Team Meetings
 The CinciTraffic Alert team will meet every Sunday night on Microsoft Teams.
