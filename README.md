@@ -18,6 +18,7 @@ Explore CinciAlert today and take control of your Cincinnati commute like never 
 [//]: # (insert text here)
 
 # UML Diagram
+![UML Diagram](https://github.com/dappensd/Enterprise-App-Development---Group-1/assets/60232895/f87807f3-80a7-4078-a0f3-5aaf021c9f8a)
 
 # JSON Schema
 [//]: # (insert text here)
