@@ -25,9 +25,9 @@ Explore CinciAlert today and take control of your Cincinnati commute like never 
 
 
 # Scrum Roles
-- Product Owner: 
-- Scrum Master:
-- Development Team: 
+- Product Owner: Sam Dappen
+- Scrum Master: David Toran
+- Development Team: William Bohman and Carson Simms
 
 # Weekly Team Meetings
 The CinciAlert team will meet every Sunday night on Microsoft Teams.
