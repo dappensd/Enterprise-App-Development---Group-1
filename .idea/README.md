@@ -18,7 +18,7 @@ Explore CinciAlert today and take control of your Cincinnati commute like never 
 [//]: # (insert text here)
 
 # UML Class Diagram
-[//]: # (insert image file here)
+![image](![](C:\Users\venar\OneDrive\Desktop\UC\Enterprise App Development\cinciAlert\Design Doc\UML Diagram.jpg))
 
 
 # JSON Schema
