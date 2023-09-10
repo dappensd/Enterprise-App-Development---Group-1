@@ -17,9 +17,7 @@ Explore CinciAlert today and take control of your Cincinnati commute like never 
 # Functional Requirements
 [//]: # (insert text here)
 
-# UML Class Diagram
-![image](![](C:\Users\venar\OneDrive\Desktop\UC\Enterprise App Development\cinciAlert\Design Doc\UML Diagram.jpg))
-
+# UML Diagram
 
 # JSON Schema
 [//]: # (insert text here)
