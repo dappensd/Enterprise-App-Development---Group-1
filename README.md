@@ -11,8 +11,8 @@ Experience an efficient and stress-free commute as you make informed decisions b
 
 Explore CinciAlert today and take control of your Cincinnati commute like never before!
 
-# Storyboard
-Link: https://www.canva.com/design/DAFuGuTEIZE/3jOcvWrhr7l993revb_uOw/edit?utm_content=DAFuGuTEIZE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+# Storyboard (Interactive Prototype)
+https://da721v.github.io/Storyboard/ 
 
 # Functional Requirements
 1. As a new user I want to create an account so, I can save frequently used routes.
