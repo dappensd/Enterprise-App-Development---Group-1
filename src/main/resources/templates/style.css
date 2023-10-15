@@ -46,3 +46,34 @@ input[type="text"], input[type="password"] {
     text-align: right;
     margin: 10px 0;
 }
+
+.home-container {
+    background-color: #f5f5f5;
+    padding: 20px;
+    width: 60%;
+    margin: auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.home-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.home-description {
+    margin-bottom: 20px;
+}
+
+.button {
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: #555;
+}
