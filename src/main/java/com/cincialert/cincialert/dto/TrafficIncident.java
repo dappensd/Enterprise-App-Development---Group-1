@@ -1,4 +1,4 @@
-package com.cincialert.cincialert;
+package com.cincialert.cincialert.dto;
 
 import lombok.Data;
 

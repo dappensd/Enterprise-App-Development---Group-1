@@ -1,9 +1,9 @@
 package com.cincialert.cincialert;
 
+import com.cincialert.cincialert.dto.TrafficIncident;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.xml.stream.Location;
 import java.util.ArrayList;
 import java.util.List;
 
