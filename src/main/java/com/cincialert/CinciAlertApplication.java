@@ -1,4 +1,4 @@
-package com.cincialert.cincialert;
+package com.cincialert;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
