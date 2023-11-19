@@ -1,4 +1,4 @@
-package com.cincialert.controller;
+package com.cincialert.controllers;
 
 import com.cincialert.dto.TrafficIncident;
 import com.cincialert.repository.TrafficIncidentRepository;
