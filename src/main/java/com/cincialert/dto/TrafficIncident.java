@@ -4,14 +4,15 @@ import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class TrafficIncident {
-    private String incidentID;
+    private int incidentID;
     private double latitude;
     private double longitude;
     private String description;
     private String severity;
 
-    public TrafficIncident(String incidentID, double latitude, double longitude, String description, String severity) {
+    public TrafficIncident(int incidentID, double latitude, double longitude, String description, String severity) {
         this.incidentID = incidentID;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -19,8 +20,6 @@ public class TrafficIncident {
         this.severity = severity;
     }
 
-    public String getDescription() {
-        return description;
-    }
+
 
 }
