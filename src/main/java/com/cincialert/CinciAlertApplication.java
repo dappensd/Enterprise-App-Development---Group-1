@@ -9,6 +9,6 @@ public class CinciAlertApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CinciAlertApplication.class, args);
 	}
-
 }
+
 

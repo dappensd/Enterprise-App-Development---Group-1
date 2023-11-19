@@ -15,12 +15,13 @@ public class MapController {
     @Autowired
     private TrafficIncidentRepository trafficIncidentRepository;
 
-    @GetMapping("/map")
+    @GetMapping("/mapview")
     public String showMap(Model model) {
         List<TrafficIncident> trafficIncidents = trafficIncidentRepository.findAll();
         model.addAttribute("trafficIncidents", trafficIncidents);
-        return "map";
+        return "mapview";
     }
 }
+
 
 
