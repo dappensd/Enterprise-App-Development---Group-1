@@ -1,18 +1,20 @@
 <html lang="en">
 <head>
-    <title>Google Maps Integration</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSO_NaN7L1T96Vo9eLHt04jgtGQmEmGVk&callback=initMap" async defer></script>
+    <title>A Simple Google Map</title>
 </head>
+
 <body>
-<div id="map"></div>
+<h1>A Simple Google Map</h1>
+
+<div id="map" style="width:600px; height: 400px;"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js"></script>
 
 <script>
-    function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -34.397, lng: 150.644},
-            zoom: 8
-        });
-    }
+    var map_parameters = { center: {lat: 47.490, lng: -117.585}, zoom: 8 };
+    var map = new google.maps.Map(document.getElementById('map'), map_parameters);
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6UX3SH6pVjeTFOOdcs11A3XntQvJZa1k"></script>
 </body>
 </html>
+
