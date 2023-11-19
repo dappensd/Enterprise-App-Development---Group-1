@@ -1,20 +1,27 @@
 <html lang="en">
 <head>
-    <title>A Simple Google Map</title>
+    <title>University of Cincinnati Map</title>
 </head>
 
 <body>
-<h1>A Simple Google Map</h1>
+    <h1>University of Cincinnati Map</h1>
+    <div id="map" style="width:600px; height: 400px;"></div>
 
-<div id="map" style="width:600px; height: 400px;"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6UX3SH6pVjeTFOOdcs11A3XntQvJZa1k"></script>
+    <script th:inline="javascript">
+        var trafficIncidents = /*[[${trafficIncidents}]]*/ [];
+        var map_parameters = { center: {lat: 39.1329, lng: -84.5150}, zoom: 15 };
+        var map = new google.maps.Map(document.getElementById('map'), map_parameters);
 
-<script src="https://maps.googleapis.com/maps/api/js"></script>
-
-<script>
-    var map_parameters = { center: {lat: 47.490, lng: -117.585}, zoom: 8 };
-    var map = new google.maps.Map(document.getElementById('map'), map_parameters);
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6UX3SH6pVjeTFOOdcs11A3XntQvJZa1k"></script>
+        for (var i = 0; i < trafficIncidents.length; i++) {
+            var incident = trafficIncidents[i];
+            var marker = new google.maps.Marker({
+                position: {lat: incident.latitude, lng: incident.longitude},
+                map: map,
+                title: incident.description
+            });
+        }
+    </script>
 </body>
 </html>
 
