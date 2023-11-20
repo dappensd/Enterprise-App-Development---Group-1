@@ -81,6 +81,13 @@
 <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap" async defer></script>
 
 <script>
+
+    // Prevents form from accidentally submitting when using search feature
+    document.getElementById("locationSearch").onkeypress = function(event) {
+        if (event.charCode == 13) {
+            event.preventDefault();
+        }
+    }
     function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: 39.103119, lng: -84.512016},
