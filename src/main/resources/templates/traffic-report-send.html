@@ -77,15 +77,41 @@
         }
     }
     function initMap() {
+        const cincinnatiLatLng = {
+            lat: 39.103119,
+            lng: -84.512016
+        }
+
         var map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 39.103119, lng: -84.512016},
-            zoom: 13
+            center: cincinnatiLatLng,
+            zoom: 13,
         });
 
-        var input = document.getElementById('locationSearch');
-        var autocomplete = new google.maps.places.Autocomplete(input);
+        var searchResult = document.getElementById('locationSearch');
+        var autocomplete = new google.maps.places.Autocomplete(searchResult);
+        document.getElementById('locationSearch').value = 'Cincinnati, OH, USA'
 
-        var infowindow = new google.maps.InfoWindow();
+        var mapStyles = [
+            {
+                featureType: "all",
+                elementType: "labels",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "road",
+                elementType: "labels",
+                stylers: [
+                    { visibility: "on" }
+                ]
+            },
+        ]
+
+        map.set('styles',mapStyles);
+
+        var infoWindow = new google.maps.InfoWindow();
+
         var marker = new google.maps.Marker({
             map: map
         });
