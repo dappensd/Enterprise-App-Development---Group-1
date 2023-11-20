@@ -165,6 +165,14 @@
         }
     }
 
+    document.getElementById("main-form").addEventListener('submit', (event) => {
+        if (parseFloat(document.getElementById("latitude").value) == 0 &&
+            parseFloat(document.getElementById("longitude").value) == 0){
+            alert('Must set a location')
+            event.preventDefault();
+        }
+    })
+
             } else {
                 marker = new google.maps.Marker({
                     position: location,
