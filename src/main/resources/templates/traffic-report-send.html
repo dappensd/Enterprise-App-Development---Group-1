@@ -194,23 +194,37 @@
                     })
                 })
             } else {
-                marker = new google.maps.Marker({
-                    position: location,
-                    map: map,
-                    icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-                });
                 document.getElementById("longitude").value = '0'
                 document.getElementById("latitude").value = '0'
             }
         })
 
+        map.addListener("click", (event) => {
+            let latLngData = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
             }
-            document.getElementById('latitude').value = place.geometry.location.lat();
-            document.getElementById('longitude').value= place.geometry.location.lng();
-        }
-        google.maps.event.addListener(map, 'click', function(event) {
-            placeMarker(event.latLng);
-        });
+            marker.setPosition(event.latLng);
+
+            geocoder.geocode({location: latLngData}).then((response) => {
+
+                if(response.results[0]){
+                    if (response.results[0].formatted_address.includes('Cincinnati')){
+                        infoWindow.setContent(response.results[0].formatted_address)
+                        infoWindow.open(map, marker);
+                        document.getElementById('locationSearch').value = response.results[0].formatted_address
+                    }else{
+                        infoWindow.setContent(response.results[0].formatted_address)
+                        infoWindow.setContent('<strong> Warning </strong>Report must be within Cincinnati<br>')
+                        marker.setPosition(cincinnatiLatLng);
+                        map.setCenter(cincinnatiLatLng);
+                    }
+                }
+            })
+
+            document.getElementById('latitude').value = event.latLng.lat()
+            document.getElementById('longitude').value = event.latLng.lng()
+        })
 
         autocomplete.addListener('place_changed', function() {
             infowindow.close();
