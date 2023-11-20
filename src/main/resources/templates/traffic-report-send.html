@@ -115,9 +115,6 @@
         var marker = new google.maps.Marker({
             map: map
         });
-        function placeMarker(location) {
-            if (marker) {
-                marker.setPosition(location);
 
         var geocoder = new google.maps.Geocoder();
 
@@ -145,6 +142,28 @@
             });
         });
 
+
+    // check if user within cincinnati
+    navigator.geolocation.getCurrentPosition((position) => {
+            let currentLocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }
+            geocoder.geocode({location: currentLocation}).then((response) => {
+                if(response.results[0]){
+                    if (!response.results[0].formatted_address.includes('Cincinnati')){
+                        document.getElementById("current-location-label").value = 'Location not within Cincinnati'
+                        document.getElementById("current-location-check").disabled= true;
+                    }
+                }
+            })
+        }), (error) => {
+        switch(error.code) {
+            case error.POSITION_UNAVAILABLE:
+                document.getElementById("current-location-label").value = "Cannot find location information"
+                break;
+        }
+    }
 
             } else {
                 marker = new google.maps.Marker({
