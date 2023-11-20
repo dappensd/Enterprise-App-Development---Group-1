@@ -118,6 +118,34 @@
         function placeMarker(location) {
             if (marker) {
                 marker.setPosition(location);
+
+        var geocoder = new google.maps.Geocoder();
+
+        // Check any problems with inital location
+        navigator.permissions.query({ name: "geolocation" }).then((result) => {
+            // initial page load
+            switch (result.state){
+                case 'prompt':
+                case 'denied':
+                    document.getElementById("current-location-label").value = "Please enable Geolocation services"
+                    document.getElementById("current-location-check").disabled= true;
+            }
+            result.addEventListener("change", () => {
+                switch (result.state){
+                    case 'prompt':
+                    case 'denied':
+                        document.getElementById("current-location-label").value = "Please enable Geolocation services"
+                        document.getElementById("current-location-check").disabled= true;
+                        break;
+                    case "granted":
+                        document.getElementById("current-location-check").disabled= false;
+                        document.getElementById("current-location-label").value = 'Use default location'
+
+                }
+            });
+        });
+
+
             } else {
                 marker = new google.maps.Marker({
                     position: location,
