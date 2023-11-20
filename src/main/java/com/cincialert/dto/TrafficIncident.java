@@ -12,6 +12,7 @@ public class TrafficIncident {
     private String description;
     private String severity;
 
+    public TrafficIncident() {}
     public TrafficIncident(int incidentID, double latitude, double longitude, String description, String severity) {
         this.incidentID = incidentID;
         this.latitude = latitude;
