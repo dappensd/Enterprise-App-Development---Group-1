@@ -124,20 +124,19 @@
             switch (result.state){
                 case 'prompt':
                 case 'denied':
-                    document.getElementById("current-location-label").value = "Please enable Geolocation services"
+                    document.getElementById("current-location-label").value = "Please enable Geolocation services [Current Location Option Disabled For Now]"
                     document.getElementById("current-location-check").disabled= true;
             }
             result.addEventListener("change", () => {
                 switch (result.state){
                     case 'prompt':
                     case 'denied':
-                        document.getElementById("current-location-label").value = "Please enable Geolocation services"
+                        document.getElementById("current-location-label").value = "Please enable Geolocation services [Current Location Option Disabled For Now]"
                         document.getElementById("current-location-check").disabled= true;
                         break;
                     case "granted":
                         document.getElementById("current-location-check").disabled= false;
                         document.getElementById("current-location-label").value = 'Use default location'
-
                 }
             });
         });
@@ -152,7 +151,7 @@
             geocoder.geocode({location: currentLocation}).then((response) => {
                 if(response.results[0]){
                     if (!response.results[0].formatted_address.includes('Cincinnati')){
-                        document.getElementById("current-location-label").value = 'Location not within Cincinnati'
+                        document.getElementById("current-location-label").value = 'Location not within Cincinnati [Current Location Option Disabled For Now]'
                         document.getElementById("current-location-check").disabled= true;
                     }
                 }
