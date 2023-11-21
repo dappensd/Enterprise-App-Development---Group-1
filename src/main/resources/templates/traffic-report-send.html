@@ -226,20 +226,45 @@
             document.getElementById('longitude').value = event.latLng.lng()
         })
 
+        var searchToolUseCount = 0;
         autocomplete.addListener('place_changed', function() {
-            infowindow.close();
             var place = autocomplete.getPlace();
-
             map.setCenter(place.geometry.location);
             map.setZoom(15);
-
             marker.setPosition(place.geometry.location);
             marker.setVisible(true);
 
-            document.getElementById('latitude').value = place.geometry.location.lat();
-            document.getElementById('longitude').value= place.geometry.location.lng();
+            geocoder.geocode({location: place.geometry.location}).then((response) => {
+                if(response.results[0]){
+                    if (response.results[0].formatted_address.includes('Cincinnati')){
+                        searchToolUseCount += 1;
+
+                        if (!(searchToolUseCount > 1)){
+                            infoWindow.setContent('<strong> Tip </strong>You can also click around map to be more accurate.<br>');
+                            infoWindow.open(map, marker);
+                            setTimeout(function(){infoWindow.close();}, '4000');
+                        }else{
+                            infoWindow.setContent(response.results[0].formatted_address)
+                            document.getElementById('latitude').value = place.geometry.location.lat();
+                            document.getElementById('longitude').value = place.geometry.location.lng();
+                            document.getElementById('locationSearch').value = response.results[0].formatted_address
+                            infoWindow.open(map, marker);
+                        }
+                    }else{
+                        infoWindow.setContent('<strong> Warning </strong>Report must be within Cincinnati<br>')
+                        setTimeout(function(){infoWindow.close();}, '3000');
+                        document.getElementById('locationSearch').value = 'Cincinnati, OH, USA'
+                        marker.setPosition(cincinnatiLatLng);
+                        map.setCenter(cincinnatiLatLng);
+                        infoWindow.open(map, marker);
+                    }
+                }
+            })
         });
     }
+
+
+
 </script>
 
 </body>
