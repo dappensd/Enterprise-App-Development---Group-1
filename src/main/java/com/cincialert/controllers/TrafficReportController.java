@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,30 +16,32 @@ public class TrafficReportController {
 
     @Autowired
     ITrafficIncidentService incidentService;
+    @RequestMapping("/submitIncident")
+    public String sendReportPage(Model model) {
 
-    @RequestMapping("/report")
-    public String reportPage() {
-        return "traffic-report-page";
+        // Included so html page can resolve traffic incident attributes
+        model.addAttribute(new TrafficIncident());
+        return "traffic-report-send";
     }
 
-    @PostMapping(value="/report", consumes="application/json", produces="application/json")
-    @ResponseBody
-    public ResponseEntity createReport(@RequestBody TrafficIncident report) {
+    @RequestMapping("/recieveIncident")
+    public String recieveReportPage() {
+        return "traffic-report-recieve";
+    }
+
+    @RequestMapping("/createReport")
+    public ResponseEntity createReport(TrafficIncident report) {
         try {
             incidentService.saveIncident(report);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception exception) {
-
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    // This was just used to test the post method
-
-//    @GetMapping("/report")
-//    @ResponseBody
-//    public List<TrafficIncident> trafficIncidentList() {
-//        return incidentService.getIncidents();
-//    }
+    @GetMapping("/retrieveReports")
+    @ResponseBody
+    public List<TrafficIncident> trafficIncidentList() {
+        return incidentService.getIncidents();
+    }
 
 }
