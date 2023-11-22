@@ -1,12 +1,26 @@
 package com.cincialert.dto;
 
 import com.cincialert.NotificationManager;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-public class User {
+@Entity
+@Table(name = "ACCOUNTS")
+@Getter
+@Setter
+@NoArgsConstructor
+public @Data class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int userId;
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
     private String description;
 

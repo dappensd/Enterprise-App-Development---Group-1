@@ -39,16 +39,20 @@ class CinciAlertApplicationTests {
 
     @Test
     void verifyUserProperties(){
+        int userId = 1;
         String username = "test";
         String email = "test@uc.edu";
         String password = "Test1234";
         String description = "i am user :)";
         User testUser = new User(username, email, password);
 
+        testUser.setUserId(userId);
+        Assertions.assertEquals(userId, testUser.getUserId());
+
         Assertions.assertEquals(username, testUser.getUsername());
 
         Assertions.assertEquals(email, testUser.getEmail());
-        
+
         Assertions.assertEquals(password, testUser.getPassword());
 
         testUser.setDescription(description);
