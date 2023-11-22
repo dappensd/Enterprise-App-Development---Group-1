@@ -8,14 +8,13 @@ package com.cincialert;
 import java.util.ArrayList;
 
 import com.cincialert.dto.TrafficIncident;
+import com.cincialert.dto.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class CinciAlertApplicationTests {
-    CinciAlertApplicationTests() {
-    }
 
     @Test
     void contextLoads() {
@@ -24,15 +23,38 @@ class CinciAlertApplicationTests {
     @Test
     void verifyTrafficIncidentProperties() {
         int IncidentID = 1;
-        new ArrayList();
         String Description = "1";
         String Severity = "1";
         TrafficIncident trafficIncident = new TrafficIncident();
+
         trafficIncident.setIncidentID(IncidentID);
         Assertions.assertEquals(IncidentID, trafficIncident.getIncidentID());
+
         trafficIncident.setDescription(Description);
         Assertions.assertEquals(Description, trafficIncident.getDescription());
+
         trafficIncident.setSeverity(Severity);
         Assertions.assertEquals(Severity, trafficIncident.getSeverity());
+    }
+
+    @Test
+    void verifyUserProperties(){
+        String username = "test";
+        String email = "test@uc.edu";
+        String password = "Test1234";
+        String description = "i am user :)";
+        User testUser = new User();
+
+        testUser.setUsername(username);
+        Assertions.assertEquals(username, testUser.getUsername());
+
+        testUser.setEmail(email);
+        Assertions.assertEquals(email, testUser.getEmail());
+
+        testUser.setPassword(password);
+        Assertions.assertEquals(password, testUser.getPassword());
+
+        testUser.setDescription(description);
+        Assertions.assertEquals(description, testUser.getDescription());
     }
 }
