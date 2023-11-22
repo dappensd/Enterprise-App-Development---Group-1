@@ -1,7 +1,9 @@
 package com.cincialert.dto;
 
 import com.cincialert.NotificationManager;
+import lombok.Data;
 
+@Data
 public class User {
     private String username;
     private String email;
@@ -70,31 +72,5 @@ public class User {
         NotificationManager notificationManager = new NotificationManager();
         notificationManager.sendNotification(this, message);
     }
-
-    // Getter methods for notification preferences
-    public boolean isEmailNotifications() {
-        return emailNotifications;
-    }
-
-    public boolean isPushNotifications() {
-        return pushNotifications;
-    }
-
-    public boolean isSmsNotifications() {
-        return smsNotifications;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
 }
 
