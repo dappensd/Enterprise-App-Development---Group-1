@@ -1,4 +1,6 @@
-package com.cincialert;
+package com.cincialert.dto;
+
+import com.cincialert.NotificationManager;
 
 public class User {
     private String username;

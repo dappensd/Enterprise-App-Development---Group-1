@@ -2,6 +2,7 @@ package com.cincialert;
 
 import java.util.List;
 import com.cincialert.dto.TrafficIncident;
+import com.cincialert.dto.User;
 
 public class TrafficAlertManager {
     private List<TrafficIncident> incidentList;
