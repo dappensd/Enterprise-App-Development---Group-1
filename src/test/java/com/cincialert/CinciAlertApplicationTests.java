@@ -39,7 +39,7 @@ class CinciAlertApplicationTests {
 
     @Test
     void verifyUserProperties(){
-        int userId = 1;
+        long userId = 1;
         String username = "test";
         String email = "test@uc.edu";
         String password = "Test1234";
