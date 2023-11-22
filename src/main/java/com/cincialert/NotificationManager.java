@@ -1,5 +1,7 @@
 package com.cincialert;
 
+import com.cincialert.dto.User;
+
 public class NotificationManager {
     public void sendNotification(User user, String message) {
         // Implement notification sending logic based on user preferences

@@ -1,8 +1,26 @@
-package com.cincialert;
+package com.cincialert.dto;
 
-public class User {
+import com.cincialert.NotificationManager;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "ACCOUNTS")
+@Getter
+@Setter
+@NoArgsConstructor
+public @Data class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
     private String description;
 
@@ -68,31 +86,5 @@ public class User {
         NotificationManager notificationManager = new NotificationManager();
         notificationManager.sendNotification(this, message);
     }
-
-    // Getter methods for notification preferences
-    public boolean isEmailNotifications() {
-        return emailNotifications;
-    }
-
-    public boolean isPushNotifications() {
-        return pushNotifications;
-    }
-
-    public boolean isSmsNotifications() {
-        return smsNotifications;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
 }
 
