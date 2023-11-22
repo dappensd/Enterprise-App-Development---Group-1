@@ -43,15 +43,12 @@ class CinciAlertApplicationTests {
         String email = "test@uc.edu";
         String password = "Test1234";
         String description = "i am user :)";
-        User testUser = new User();
+        User testUser = new User(username, email, password);
 
-        testUser.setUsername(username);
         Assertions.assertEquals(username, testUser.getUsername());
 
-        testUser.setEmail(email);
         Assertions.assertEquals(email, testUser.getEmail());
-
-        testUser.setPassword(password);
+        
         Assertions.assertEquals(password, testUser.getPassword());
 
         testUser.setDescription(description);
