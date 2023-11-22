@@ -1,4 +1,6 @@
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,6 +8,7 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+    <div layout:fragment="content">
         <div class="login-container">
             <div class="login-title">CINCI ALERT</div>
             <div class="login-form">
@@ -18,5 +21,6 @@
                 <a href="#">Create an Account</a>
             </div>
         </div>
+    </div>
     </body>
 </html>

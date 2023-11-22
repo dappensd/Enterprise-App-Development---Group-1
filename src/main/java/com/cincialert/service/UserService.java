@@ -3,35 +3,30 @@ package com.cincialert.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cincialert.model.User;
+import com.cincialert.dto.User;
 import com.cincialert.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements IUserService{
 
     @Autowired
     private UserRepository userRepository;
 
-    public User createUser(User user) {
+    public User save(User user) {
         return userRepository.save(user);
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
-    }
+    public User getUserById(Long id) { return userRepository.getById(id); }
 
-    public List<User> getAllUsers() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void delete(User user) {
+        userRepository.delete(user);
     }
 }
