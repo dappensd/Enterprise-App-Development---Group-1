@@ -91,4 +91,9 @@ function initMap() {
         },
         styles: mapStyles
     });
+
+    var searchResult = document.getElementById('location-search-bar');
+    var geocoder = new google.maps.Geocoder();
+    document.getElementById('location-search-bar').value = 'Cincinnati, OH, USA'
+
 }
