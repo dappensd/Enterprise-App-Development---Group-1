@@ -128,4 +128,17 @@ function initMap() {
         clickable: false
     });
 
+    function outOfBoundsError(errorType){
+        map.panTo(cincinnatiLatLng);
+        marker.setPosition(cincinnatiLatLng);
+        switch (errorType){
+            case 'CAMERA_PAN':
+                infoWindow.setContent('<strong> Leaving Cincy so soon? <br> </strong> Try to find traffic incidents within Cincinnati')
+                break
+            case 'MARKER_SET':
+                infoWindow.setContent('<strong> Woah There! <br> </strong> Report must be near Cincinnati')
+        }
+        infoWindow.open(map, marker);
+    }
+
 }
