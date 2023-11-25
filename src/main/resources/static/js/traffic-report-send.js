@@ -67,4 +67,16 @@ function initMap() {
         lat: 39.103119,
         lng: -84.512016
     }
+    var mapStyles = [
+        {
+            featureType: "all",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        },
+        {
+            featureType: "road",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }]
+        }]
+
 }
