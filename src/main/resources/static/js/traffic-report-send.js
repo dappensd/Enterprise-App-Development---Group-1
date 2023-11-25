@@ -67,6 +67,7 @@ function initMap() {
         lat: 39.103119,
         lng: -84.512016
     }
+
     var mapStyles = [
         {
             featureType: "all",
@@ -79,4 +80,15 @@ function initMap() {
             stylers: [{ visibility: "on" }]
         }]
 
+    var map = new google.maps.Map(document.getElementById('map'), {
+        center: cincinnatiLatLng,
+        zoom: 13,
+        options: {
+            draggableCursor: 'pointer',
+            fullscreenControl: false,
+            streetViewControl: false,
+            minZoom: 1
+        },
+        styles: mapStyles
+    });
 }
