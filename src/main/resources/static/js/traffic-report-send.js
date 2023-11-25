@@ -96,4 +96,16 @@ function initMap() {
     var geocoder = new google.maps.Geocoder();
     document.getElementById('location-search-bar').value = 'Cincinnati, OH, USA'
 
+    var cincinnatiBounds = {
+        north: 39.23,
+        south: 39.0295,
+        west: -84.73,
+        east: -84.35
+    }
+
+    var cincylatLngBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(cincinnatiBounds.south, cincinnatiBounds.west),
+        new google.maps.LatLng(cincinnatiBounds.north, cincinnatiBounds.east)
+    );
+
 }
