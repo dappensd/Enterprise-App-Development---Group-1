@@ -141,4 +141,17 @@ function initMap() {
         infoWindow.open(map, marker);
     }
 
+    $("#close-success").click(() => {
+        $("#submit-form-sucess").addClass("d-none");
+        $("#submit-form-sucess").removeClass("fade show");
+
+    });
+
+    $("#close-error").click(() => {
+        $("#submit-form-alert").addClass("d-none");
+        $("#submit-form-alert").removeClass("fade show");
+
+    });
+
+
 }
