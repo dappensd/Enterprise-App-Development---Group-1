@@ -198,6 +198,22 @@ function initMap() {
         document.getElementById('longitude').value = shortestResult.geometry.location.lng()
     }
 
+    map.addListener("click", (event) => {
+        let clickedLatLng = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng()
+        }
+        geocoder.geocode({location: clickedLatLng}).then((response) => {
+
+            if (cincylatLngBounds.contains(clickedLatLng)) {
+                marker.setPosition(event.latLng);
+                handleMarkerPlacementResult(response, event.latLng)
+
+            }else{
+                outOfBoundsError('MARKER_SET')
+            }
+        })
+    })
 
 
 }
