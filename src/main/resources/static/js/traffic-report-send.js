@@ -113,4 +113,19 @@ function initMap() {
         strictBounds: true
     })
 
+    var infoWindow = new google.maps.InfoWindow();
+    var marker = new google.maps.Marker({
+        map: map
+    });
+
+    // use to draw outline / testing boundary
+    var cincyRect = new google.maps.Rectangle({
+        bounds: cincinnatiBounds,
+        strokeColor: "red",
+        strokeOpacity: .2,
+        fillOpacity: 0,
+        map: map,
+        clickable: false
+    });
+
 }
