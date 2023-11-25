@@ -153,5 +153,12 @@ function initMap() {
 
     });
 
+    map.addListener('center_changed', () => {
+        if (!cincylatLngBounds.contains(map.getCenter())){
+            outOfBoundsError('CAMERA_PAN')
+        }
+    });
+
+
 
 }
