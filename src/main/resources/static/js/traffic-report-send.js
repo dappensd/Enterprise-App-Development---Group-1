@@ -215,5 +215,19 @@ function initMap() {
         })
     })
 
+    autocomplete.addListener('place_changed', () => {
+        let searchResult = autocomplete.getPlace();
+
+        geocoder.geocode({location: searchResult.geometry.location}).then((response) => {
+            // even with strict bounds, still can have error
+            if (cincylatLngBounds.contains(searchResult.geometry.location)){
+                marker.setPosition(searchResult.geometry.location);
+                handleMarkerPlacementResult(response, searchResult.geometry.location)
+            }else{
+                outOfBoundsError('MARKER_SET')
+            }
+        })
+    });
+
 
 }
