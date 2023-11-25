@@ -108,4 +108,9 @@ function initMap() {
         new google.maps.LatLng(cincinnatiBounds.north, cincinnatiBounds.east)
     );
 
+    var autocomplete = new google.maps.places.Autocomplete(searchResult, {
+        bounds: cincinnatiBounds,
+        strictBounds: true
+    })
+
 }
