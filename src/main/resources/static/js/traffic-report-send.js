@@ -41,6 +41,23 @@ window.addEventListener("load", (event) => {
             $("#submit-form-alert").addClass("fade show");
             event.preventDefault();
 
+        }else{
+
+            $("#description-area").removeClass("input-fields-glow");
+            $("#description-label").text('Description')
+
+            $("#severity-level-area").removeClass("input-fields-glow");
+            $("#severity-level-label").text('Severity Level')
+
+            $('#location-input').text('Location: ' + $('#location-search-bar').val())
+            $('#description-input').text('Description: ' + $('#description').val())
+            $('#severity-input').text('Severity: ' + $('#severity-level').val());
+
+            $("#submit-form-sucess").removeClass("d-none");
+            $("#submit-form-sucess").addClass("slide-down");
+            $(".overlay").fadeIn();
+            $("#submit-form-sucess").addClass("fade show");
+
         }
     })
 });
