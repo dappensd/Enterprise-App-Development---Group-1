@@ -61,3 +61,10 @@ window.addEventListener("load", (event) => {
         }
     })
 });
+
+function initMap() {
+    const cincinnatiLatLng = {
+        lat: 39.103119,
+        lng: -84.512016
+    }
+}
