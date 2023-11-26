@@ -15,6 +15,9 @@ window.addEventListener("load", (event) => {
 
         if (noLocationPicked || noDescriptionPicked || noSeverityLevelPicked){
 
+            $("#submit-form-sucess").addClass("d-none");
+            $("#submit-form-sucess").removeClass("fade show");
+
             if (noLocationPicked){
                 if (noDescriptionPicked || noSeverityLevelPicked){
                     $("#alert-info").text("Please fill out the missing fields below\nMake sure you have a chosen location")
@@ -42,6 +45,8 @@ window.addEventListener("load", (event) => {
             event.preventDefault();
 
         }else{
+            $("#submit-form-alert").addClass("d-none");
+            $("#submit-form-alert").removeClass("fade show");
 
             $("#description-area").removeClass("input-fields-glow");
             $("#description-label").text('Description')
