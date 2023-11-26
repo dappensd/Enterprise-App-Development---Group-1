@@ -1,4 +1,4 @@
-package com.cincialert.model;
+package com.cincialert.dto;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -5,8 +5,8 @@ import com.cincialert.dto.TrafficIncident;
 import java.util.List;
 
 public interface ITrafficIncidentDAO {
-    TrafficIncident saveIncident(TrafficIncident incident) throws Exception;
-    List<TrafficIncident> getIncidents();
-    TrafficIncident getIncidentById(int id);
-    void removeIncidentById(int id) throws Exception;
+    void save(TrafficIncident incident) throws Exception;
+    List<TrafficIncident> fetchAll();
+    TrafficIncident fetchById(int id);
+    void deleteById(int id) throws Exception;
 }

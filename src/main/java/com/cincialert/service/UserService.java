@@ -3,7 +3,7 @@ package com.cincialert.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cincialert.model.User;
+import com.cincialert.dto.User;
 import com.cincialert.repository.UserRepository;
 
 import java.util.List;

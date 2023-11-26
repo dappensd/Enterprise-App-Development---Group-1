@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.cincialert.model.User;
+import com.cincialert.dto.User;
 import com.cincialert.service.UserService;
 
 import java.util.List;

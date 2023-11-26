@@ -1,32 +1,31 @@
 package com.cincialert.dao;
 
 import com.cincialert.dto.TrafficIncident;
+import com.cincialert.repository.TrafficIncidentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class TrafficIncidentDAO implements ITrafficIncidentDAO {
-    private Map<Integer, TrafficIncident> incidents = new HashMap<>();
+
+    @Autowired
+    TrafficIncidentRepository trafficIncidentRepository;
     @Override
-    public TrafficIncident saveIncident(TrafficIncident incident) throws Exception {
-        Integer id = incident.getIncidentID();
-        incidents.put(id, incident);
-        return incident;
+    public void save(TrafficIncident trafficIncident) throws Exception {
+        trafficIncidentRepository.save(trafficIncident);
     }
     @Override
-    public List<TrafficIncident> getIncidents() {
-        return new ArrayList(incidents.values());
+    public List<TrafficIncident> fetchAll() {
+        return trafficIncidentRepository.findAll();
     }
     @Override
-    public TrafficIncident getIncidentById(int id) {
-        return incidents.get(id);
+    public TrafficIncident fetchById(int id) {
+        return trafficIncidentRepository.findById(id).get();
     }
     @Override
-    public void removeIncidentById(int id) throws Exception {
-        incidents.remove(id);
+    public void deleteById(int id) throws Exception {
+        trafficIncidentRepository.deleteById(id);
     }
 }

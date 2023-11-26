@@ -1,11 +1,17 @@
 package com.cincialert.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 
-import java.util.List;
-
+@Entity
 @Data
 public class TrafficIncident {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int incidentID;
     private double latitude;
     private double longitude;
@@ -20,7 +26,5 @@ public class TrafficIncident {
         this.description = description;
         this.severity = severity;
     }
-
-
 
 }

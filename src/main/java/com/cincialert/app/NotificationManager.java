@@ -1,4 +1,6 @@
-package com.cincialert;
+package com.cincialert.app;
+
+import com.cincialert.app.User;
 
 public class NotificationManager {
     public void sendNotification(User user, String message) {
