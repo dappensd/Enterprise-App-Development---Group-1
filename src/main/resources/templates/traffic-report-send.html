@@ -52,233 +52,37 @@
                     <input type="text" class="form-control" aria-label="default" aria-describedby="default" id="location-search-bar">
                 </div>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <div class="input-group-text">
-                <input type="checkbox" aria-label="" id="current-location-check">
-            </div>
-        </div>
-        <input type="text" id="current-location-label" class="form-control" aria-label="" value="Use Current Location" style="background-color: white" readonly>
-    </div>
+                <div class="mb-3" id="map" style="width: 100%; height: 400px;"></div>
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Severity Level</label>
-        </div>
-        <select class="custom-select" id="inputGroupSelect01" th:field="*{severity}">
-            <option value="fatal">Fatal</option>
-            <option value="serious">Serious</option>
-            <option value="light">Light</option>
-        </select>
-    </div>
+                <div class="input-group mb-3" id="description-area">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="description-label">Description</span>
+                    </div>
+                    <textarea id="description" class="form-control" aria-label="With textarea" th:field="*{description}"></textarea>
+                </div>
 
-    <input id="longitude" style="display: none; visibility: hidden" name="description" th:field="*{longitude}"/>
-    <input id="latitude" style="display: none; visibility: hidden " name="description" th:field="*{latitude}"/>
+                <div class="input-group mb-3" id="severity-level-area">
+                    <div class="input-group-prepend">
+                        <label id="severity-level-label" class="input-group-text" for="severity-level">Severity Level</label>
+                    </div>
+                    <select class="custom-select" id="severity-level" th:field="*{severity}">
+                        <option value="default">Choose one...</option>
+                        <option value="fatal">Fatal</option>
+                        <option value="serious">Serious</option>
+                        <option value="light">Light</option>
+                    </select>
+                </div>
 
-    <button type="submit" class="btn btn-secondary" value="0">Submit Report</button>
-</form>
+                <input id="longitude" style="display: none; visibility: hidden" name="description" th:field="*{longitude}"/>
+                <input id="latitude" style="display: none; visibility: hidden " name="description" th:field="*{latitude}"/>
 
-
-<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap" async defer></script>
-
-
-<script>
-
-    // Prevents form from accidentally submitting when using search feature
-    document.getElementById("locationSearch").onkeypress = function(event) {
-        if (event.charCode == 13) {
-            event.preventDefault();
-        }
-    }
-    function initMap() {
-        const cincinnatiLatLng = {
-            lat: 39.103119,
-            lng: -84.512016
-        }
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: cincinnatiLatLng,
-            zoom: 13,
-        });
-
-        var searchResult = document.getElementById('locationSearch');
-        var autocomplete = new google.maps.places.Autocomplete(searchResult);
-        document.getElementById('locationSearch').value = 'Cincinnati, OH, USA'
-
-        var mapStyles = [
-            {
-                featureType: "all",
-                elementType: "labels",
-                stylers: [
-                    { visibility: "off" }
-                ]
-            },
-            {
-                featureType: "road",
-                elementType: "labels",
-                stylers: [
-                    { visibility: "on" }
-                ]
-            },
-        ]
-
-        map.set('styles',mapStyles);
-
-        var infoWindow = new google.maps.InfoWindow();
-
-        var marker = new google.maps.Marker({
-            map: map
-        });
-
-        var geocoder = new google.maps.Geocoder();
-
-        // Check any problems with inital location
-        navigator.permissions.query({ name: "geolocation" }).then((result) => {
-            // initial page load
-            switch (result.state){
-                case 'prompt':
-                case 'denied':
-                    document.getElementById("current-location-label").value = "Please enable Geolocation services [Current Location Option Disabled For Now]"
-                    document.getElementById("current-location-check").disabled= true;
-            }
-            result.addEventListener("change", () => {
-                switch (result.state){
-                    case 'prompt':
-                    case 'denied':
-                        document.getElementById("current-location-label").value = "Please enable Geolocation services [Current Location Option Disabled For Now]"
-                        document.getElementById("current-location-check").disabled= true;
-                        break;
-                    case "granted":
-                        document.getElementById("current-location-check").disabled= false;
-                        document.getElementById("current-location-label").value = 'Use default location'
-                }
-            });
-        });
-
-
-    // check if user within cincinnati
-    navigator.geolocation.getCurrentPosition((position) => {
-            let currentLocation = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            }
-            geocoder.geocode({location: currentLocation}).then((response) => {
-                if(response.results[0]){
-                    if (!response.results[0].formatted_address.includes('Cincinnati')){
-                        document.getElementById("current-location-label").value = 'Location not within Cincinnati [Current Location Option Disabled For Now]'
-                        document.getElementById("current-location-check").disabled= true;
-                    }
-                }
-            })
-        }), (error) => {
-        switch(error.code) {
-            case error.POSITION_UNAVAILABLE:
-                document.getElementById("current-location-label").value = "Cannot find location information"
-                break;
-        }
-    }
-
-    document.getElementById("main-form").addEventListener('submit', (event) => {
-        if (parseFloat(document.getElementById("latitude").value) == 0 &&
-            parseFloat(document.getElementById("longitude").value) == 0){
-            alert('Must set a location')
-            event.preventDefault();
-        }
-    })
-
-        document.getElementById("current-location-check").addEventListener('change', function() {
-            if (this.checked) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    let currentLocation = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    }
-
-                    geocoder.geocode({location: currentLocation}).then((response) => {
-                        if(response.results[0]){
-                            document.getElementById("longitude").value = position.coords.longitude
-                            document.getElementById("latitude").value = position.coords.latitude
-                            document.getElementById('locationSearch').value = response.results[0].formatted_address
-                            map.setCenter(currentLocation);
-                            marker.setPosition(currentLocation);
-                            infoWindow.setContent(response.results[0].formatted_address)
-                            infoWindow.open(map, marker);
-                        }
-                    })
-                })
-            } else {
-                document.getElementById("longitude").value = '0'
-                document.getElementById("latitude").value = '0'
-            }
-        })
-
-        map.addListener("click", (event) => {
-            let latLngData = {
-                lat: event.latLng.lat(),
-                lng: event.latLng.lng()
-            }
-            marker.setPosition(event.latLng);
-
-            geocoder.geocode({location: latLngData}).then((response) => {
-
-                if(response.results[0]){
-                    if (response.results[0].formatted_address.includes('Cincinnati')){
-                        infoWindow.setContent(response.results[0].formatted_address)
-                        infoWindow.open(map, marker);
-                        document.getElementById('locationSearch').value = response.results[0].formatted_address
-                    }else{
-                        infoWindow.setContent(response.results[0].formatted_address)
-                        infoWindow.setContent('<strong> Warning </strong>Report must be within Cincinnati<br>')
-                        marker.setPosition(cincinnatiLatLng);
-                        map.setCenter(cincinnatiLatLng);
-                    }
-                }
-            })
-
-            document.getElementById('latitude').value = event.latLng.lat()
-            document.getElementById('longitude').value = event.latLng.lng()
-        })
-
-        var searchToolUseCount = 0;
-        autocomplete.addListener('place_changed', function() {
-            var place = autocomplete.getPlace();
-            map.setCenter(place.geometry.location);
-            map.setZoom(15);
-            marker.setPosition(place.geometry.location);
-            marker.setVisible(true);
-
-            geocoder.geocode({location: place.geometry.location}).then((response) => {
-                if(response.results[0]){
-                    if (response.results[0].formatted_address.includes('Cincinnati')){
-                        searchToolUseCount += 1;
-
-                        if (!(searchToolUseCount > 1)){
-                            infoWindow.setContent('<strong> Tip </strong>You can also click around map to be more accurate.<br>');
-                            infoWindow.open(map, marker);
-                            setTimeout(function(){infoWindow.close();}, '4000');
-                        }else{
-                            infoWindow.setContent(response.results[0].formatted_address)
-                            document.getElementById('latitude').value = place.geometry.location.lat();
-                            document.getElementById('longitude').value = place.geometry.location.lng();
-                            document.getElementById('locationSearch').value = response.results[0].formatted_address
-                            infoWindow.open(map, marker);
-                        }
-                    }else{
-                        infoWindow.setContent('<strong> Warning </strong>Report must be within Cincinnati<br>')
-                        setTimeout(function(){infoWindow.close();}, '3000');
-                        document.getElementById('locationSearch').value = 'Cincinnati, OH, USA'
-                        marker.setPosition(cincinnatiLatLng);
-                        map.setCenter(cincinnatiLatLng);
-                        infoWindow.open(map, marker);
-                    }
-                }
-            })
-        });
-    }
+                <button id="submit-button" type="submit" class="btn btn-secondary" value="0">Submit Report</button>
 
 
 
-</script>
+            </form>
+            <iframe name="formSubmitFrame"  class="d-none"></iframe>
 
-</body>
+        </main>
+    </body>
 </html>
