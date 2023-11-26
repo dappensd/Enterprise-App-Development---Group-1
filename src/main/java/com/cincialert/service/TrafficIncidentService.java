@@ -1,6 +1,5 @@
 package com.cincialert.service;
 
-
 import com.cincialert.dao.ITrafficIncidentDAO;
 import com.cincialert.dto.TrafficIncident;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,28 +9,22 @@ import java.util.List;
 
 @Service
 public class TrafficIncidentService implements ITrafficIncidentService {
+
     @Autowired
     private ITrafficIncidentDAO trafficIncidentDAO;
-
-    public TrafficIncidentService(){}
-    public TrafficIncidentService(ITrafficIncidentDAO trafficIncidentDAO) {
-
-        this.trafficIncidentDAO = trafficIncidentDAO;
+    public TrafficIncidentService(ITrafficIncidentDAO trafficIncidentDAO) {this.trafficIncidentDAO = trafficIncidentDAO;}
+    @Override
+    public void save(TrafficIncident incident) throws Exception {trafficIncidentDAO.save(incident);}
+    @Override
+    public List<TrafficIncident> fetchAll() {
+        return trafficIncidentDAO.fetchAll();
     }
     @Override
-    public TrafficIncident saveIncident(TrafficIncident incident) throws Exception {
-        return trafficIncidentDAO.saveIncident(incident);
+    public TrafficIncident fetchById(int id) {
+        return trafficIncidentDAO.fetchById(id);
     }
     @Override
-    public List<TrafficIncident> getIncidents() {
-        return trafficIncidentDAO.getIncidents();
-    }
-    @Override
-    public TrafficIncident getIncidentById(int id) {
-        return trafficIncidentDAO.getIncidentById(id);
-    }
-    @Override
-    public void removeIncidentById(int id) throws Exception {
-        trafficIncidentDAO.removeIncidentById(id);
+    public void deleteById(int id) throws Exception {
+        trafficIncidentDAO.deleteById(id);
     }
 }
