@@ -1,4 +1,4 @@
-package com.cincialert;
+package com.cincialert.app;
 
 public class User {
     private String username;

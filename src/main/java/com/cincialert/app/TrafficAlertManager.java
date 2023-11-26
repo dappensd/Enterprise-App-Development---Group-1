@@ -1,4 +1,4 @@
-package com.cincialert;
+package com.cincialert.app;
 
 import java.util.List;
 import com.cincialert.dto.TrafficIncident;
