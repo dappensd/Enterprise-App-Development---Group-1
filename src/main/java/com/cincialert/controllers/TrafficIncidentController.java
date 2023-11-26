@@ -12,21 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-public class TrafficReportController {
+public class TrafficIncidentController {
 
     @Autowired
     ITrafficIncidentService incidentService;
     @RequestMapping("/submitIncident")
     public String sendReportPage(Model model) {
 
-        // Included so html page can resolve traffic incident attributes
         model.addAttribute(new TrafficIncident());
         return "traffic-report-send";
-    }
-
-    @RequestMapping("/recieveIncident")
-    public String recieveReportPage() {
-        return "traffic-report-recieve";
     }
 
     @RequestMapping("/createReport")
@@ -38,6 +32,11 @@ public class TrafficReportController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @RequestMapping("/recieveIncident")
+    public String recieveReportPage() {
+        return "traffic-report-recieve";
+    }
+
     @GetMapping("/retrieveReports")
     @ResponseBody
     public List<TrafficIncident> trafficIncidentList() {

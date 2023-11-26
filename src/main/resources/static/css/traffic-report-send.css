@@ -1,0 +1,23 @@
+.input-fields-glow {
+    box-shadow: 3px 3px 15px red;
+    outline: none;
+}
+
+.slide-down {
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.alert-overlay {
+    position:fixed;
+    z-index: 10;
+    width: 100%;
+}
