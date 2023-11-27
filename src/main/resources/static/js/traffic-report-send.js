@@ -1,4 +1,4 @@
-window.addEventListener("load", (event) => {
+window.onload = function() {
     document.getElementById("location-search-bar").onkeypress = (event) => {
         if (event.charCode == 13) {
             event.preventDefault();
@@ -62,40 +62,10 @@ window.addEventListener("load", (event) => {
             $("#submit-form-sucess").addClass("slide-down");
             $(".overlay").fadeIn();
             $("#submit-form-sucess").addClass("fade show");
-
         }
     })
-});
 
-function initMap() {
-    const cincinnatiLatLng = {
-        lat: 39.103119,
-        lng: -84.512016
-    }
-
-    var mapStyles = [
-        {
-            featureType: "all",
-            elementType: "labels",
-            stylers: [{ visibility: "off" }]
-        },
-        {
-            featureType: "road",
-            elementType: "labels",
-            stylers: [{ visibility: "on" }]
-        }]
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: cincinnatiLatLng,
-        zoom: 13,
-        options: {
-            draggableCursor: 'pointer',
-            fullscreenControl: false,
-            streetViewControl: false,
-            minZoom: 1
-        },
-        styles: mapStyles
-    });
+    initMap();
 
     var searchResult = document.getElementById('location-search-bar');
     var geocoder = new google.maps.Geocoder();
@@ -164,7 +134,39 @@ function initMap() {
         }
     });
 
-    function handleMarkerPlacementResult(response, latLng){
+    currentLocationButton.addEventListener("click", () => {
+
+        navigator.geolocation.getCurrentPosition((position) => {
+                const currentLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                geocoder.geocode({location: currentLocation}).then((response) => {
+
+                    if (cincylatLngBounds.contains(currentLocation)) {
+                        handleMarkerPlacementResult(response, currentLocation, true)
+                    }else{
+                        marker.setPosition(map.getCenter())
+                        infoWindow.setContent('<strong> Oh no! <br> </strong> Your current location is not near Cincy')
+                        infoWindow.open(map, marker);
+                    }
+                })
+
+            }, (error) => {
+                switch (error.code){
+                    case error.PERMISSION_DENIED:
+                    case error.POSITION_UNAVAILABLE:
+                        marker.setPosition(map.getCenter())
+                        infoWindow.setContent('<strong>Could not detect current location <br></strong> '
+                            + 'Cannot use current location')
+                        infoWindow.open(map, marker);
+                }
+            }
+        );
+    })
+
+    function handleMarkerPlacementResult(response, latLng, isDriving){
 
         // Geocode first result near marker isn't always accurate.
         // distance calculation below is used to improve accuracy
