@@ -1,4 +1,4 @@
-window.addEventListener("load", (event) => {
+window.onload = function() {
     document.getElementById("location-search-bar").onkeypress = (event) => {
         if (event.charCode == 13) {
             event.preventDefault();
@@ -62,40 +62,10 @@ window.addEventListener("load", (event) => {
             $("#submit-form-sucess").addClass("slide-down");
             $(".overlay").fadeIn();
             $("#submit-form-sucess").addClass("fade show");
-
         }
     })
-});
 
-function initMap() {
-    const cincinnatiLatLng = {
-        lat: 39.103119,
-        lng: -84.512016
-    }
-
-    var mapStyles = [
-        {
-            featureType: "all",
-            elementType: "labels",
-            stylers: [{ visibility: "off" }]
-        },
-        {
-            featureType: "road",
-            elementType: "labels",
-            stylers: [{ visibility: "on" }]
-        }]
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-        center: cincinnatiLatLng,
-        zoom: 13,
-        options: {
-            draggableCursor: 'pointer',
-            fullscreenControl: false,
-            streetViewControl: false,
-            minZoom: 1
-        },
-        styles: mapStyles
-    });
+    initMap();
 
     var searchResult = document.getElementById('location-search-bar');
     var geocoder = new google.maps.Geocoder();
@@ -164,33 +134,72 @@ function initMap() {
         }
     });
 
-    function handleMarkerPlacementResult(response, latLng){
+    currentLocationButton.addEventListener("click", () => {
+
+        navigator.geolocation.getCurrentPosition((position) => {
+                const currentLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                geocoder.geocode({location: currentLocation}).then((response) => {
+
+                    if (cincylatLngBounds.contains(currentLocation)) {
+                        handleMarkerPlacementResult(response, currentLocation, true)
+                    }else{
+                        marker.setPosition(map.getCenter())
+                        infoWindow.setContent('<strong> Oh no! <br> </strong> Your current location is not near Cincy')
+                        infoWindow.open(map, marker);
+                    }
+                })
+
+            }, (error) => {
+                switch (error.code){
+                    case error.PERMISSION_DENIED:
+                    case error.POSITION_UNAVAILABLE:
+                        marker.setPosition(map.getCenter())
+                        infoWindow.setContent('<strong>Could not detect current location <br></strong> '
+                            + 'Cannot use current location')
+                        infoWindow.open(map, marker);
+                }
+            }
+        );
+    })
+
+    function handleMarkerPlacementResult(response, latLng, isDriving){
 
         // Geocode first result near marker isn't always accurate.
-        // distance calculation below is used to improve accuracy
+        // distance and type check is used to improve accuracy
 
-        let shortestDist = 6371071.0272
+        let shortestDist = Number.MAX_SAFE_INTEGER
         let shortestResult = null;
-        let naturalResultType;
 
         response.results.forEach((result) =>{
             let dist = google.maps.geometry.spherical.computeDistanceBetween(latLng, result.geometry.location);
 
-            // Use to filter out location code i.e (8 + 2 or 4 + 2 char). Dont know how to handle this
-            // Might not  filter roads, routes. Google map sets types varied.
             if (dist < shortestDist && result.types[0] !== 'plus_code'
                 && (result.types[0] === 'street_address' )
-                || result.types[0] === 'route'){
+                || result.types[0] === 'route'
+                || result.types[0] === 'intersection'){
                 shortestDist = dist;
                 shortestResult = result
             }
         })
 
-        let markerOffset = 40
+        let markerOffset = 20
         if (shortestResult != null && shortestDist <= markerOffset) {
+            marker.setPosition(shortestResult.geometry.location);
             infoWindow.setContent(shortestResult.formatted_address)
             infoWindow.open(map, marker);
         }else{
+            if (isDriving){
+                marker.setPosition(latLng)
+                infoWindow.setContent('<strong>Marker detected was too far from a street address. <br></strong> '
+                    + 'Cannot use current location')
+                infoWindow.open(map, marker);
+                return;
+            }
+
             map.panTo(shortestResult.geometry.location)
             marker.setPosition(shortestResult.geometry.location)
             infoWindow.setContent('<strong>Marker detected was too far from a street address. ' +
@@ -203,36 +212,107 @@ function initMap() {
         document.getElementById('longitude').value = shortestResult.geometry.location.lng()
     }
 
-    map.addListener("click", (event) => {
-        let clickedLatLng = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        }
-        geocoder.geocode({location: clickedLatLng}).then((response) => {
 
-            if (cincylatLngBounds.contains(clickedLatLng)) {
-                marker.setPosition(event.latLng);
-                handleMarkerPlacementResult(response, event.latLng)
+    var previousMapClickTime = 0;
 
-            }else{
-                outOfBoundsError('MARKER_SET')
+    map.addListener('click', (event)=>{
+        const currentTime = Date.now();
+
+        if (currentTime - previousMapClickTime >= 2000) {
+            let clickedLatLng = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
             }
-        })
+            geocoder.geocode({location: clickedLatLng}).then((response) => {
+                if (cincylatLngBounds.contains(clickedLatLng)) {
+                    marker.setPosition(event.latLng);
+                    handleMarkerPlacementResult(response, event.latLng, false)
+
+                }else{
+                    outOfBoundsError('MARKER_SET')
+                }
+            })
+        }else{
+            marker.setPosition(event.latLng)
+            infoWindow.setContent('<strong>Woah! Slow down!' +
+                ' <br>You\'re sending too many request.<br> </strong> ')
+            infoWindow.open(map, marker);
+        }
+
+        previousMapClickTime = currentTime;
+
     })
 
-    autocomplete.addListener('place_changed', () => {
-        let searchResult = autocomplete.getPlace();
 
-        geocoder.geocode({location: searchResult.geometry.location}).then((response) => {
-            // even with strict bounds, still can have error
-            if (cincylatLngBounds.contains(searchResult.geometry.location)){
-                marker.setPosition(searchResult.geometry.location);
-                handleMarkerPlacementResult(response, searchResult.geometry.location)
-            }else{
-                outOfBoundsError('MARKER_SET')
-            }
-        })
+    var previousSearchLocationTime = 0;
+
+    autocomplete.addListener('place_changed', () => {
+
+        const currentTime = Date.now();
+        if (currentTime - previousSearchLocationTime >= 5000) {
+
+            let searchResult = autocomplete.getPlace();
+
+            geocoder.geocode({location: searchResult.geometry.location}).then((response) => {
+                // even with strict bounds, still can have error
+                if (cincylatLngBounds.contains(searchResult.geometry.location)){
+                    handleMarkerPlacementResult(response, searchResult.geometry.location, false)
+                }else{
+                    outOfBoundsError('MARKER_SET')
+                }
+            })
+        }else{
+            marker.setPosition(map.getCenter())
+            infoWindow.setContent('<strong>Woah! Slow down!' +
+                ' <br>You\'re sending too many request.<br> </strong> ')
+            infoWindow.open(map, marker);
+        }
+        previousSearchLocationTime = currentTime;
     });
 
+};
 
+
+const cincinnatiLatLng = {
+    lat: 39.103119,
+    lng: -84.512016
+}
+var mapStyles;
+var map;
+var currentLocationButton;
+
+function initMap() {
+    mapStyles  = [
+        {
+            featureType: "all",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        },
+        {
+            featureType: "road",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }]
+        }]
+
+    const mapDiv = document.getElementById('map');
+
+    map = new google.maps.Map(mapDiv, {
+        center: cincinnatiLatLng,
+        zoom: 13,
+        draggableCursor: 'pointer',
+        fullscreenControl: false,
+        streetViewControl: false,
+        minZoom: 1,
+        mapTypeControl: false,
+        gestureHandling: "greedy",
+        styles: mapStyles
+    });
+
+    currentLocationButton = document.createElement("button");
+    currentLocationButton.id = "current-location-button";
+    currentLocationButton.textContent = "Use Current Location";
+    currentLocationButton.className = 'btn btn-secondary'
+    currentLocationButton.type = 'button'
+
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(currentLocationButton);
 }
