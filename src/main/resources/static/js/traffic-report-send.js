@@ -212,35 +212,68 @@ window.onload = function() {
         document.getElementById('longitude').value = shortestResult.geometry.location.lng()
     }
 
-    map.addListener("click", (event) => {
-        let clickedLatLng = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        }
-        geocoder.geocode({location: clickedLatLng}).then((response) => {
 
-            if (cincylatLngBounds.contains(clickedLatLng)) {
-                marker.setPosition(event.latLng);
-                handleMarkerPlacementResult(response, event.latLng)
+    var previousMapClickTime = 0;
 
-            }else{
-                outOfBoundsError('MARKER_SET')
+    map.addListener('click', (event)=>{
+        const currentTime = Date.now();
+
+        if (currentTime - previousMapClickTime >= 2000) {
+            let clickedLatLng = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
             }
-        })
+            geocoder.geocode({location: clickedLatLng}).then((response) => {
+                console.log('here')
+                if (cincylatLngBounds.contains(clickedLatLng)) {
+                    marker.setPosition(event.latLng);
+                    handleMarkerPlacementResult(response, event.latLng, false)
+
+                }else{
+                    outOfBoundsError('MARKER_SET')
+                }
+            })
+        }else{
+            marker.setPosition(event.latLng)
+            infoWindow.setContent('<strong>Woah! Slow down!' +
+                ' <br>You\'re sending too many request.<br> </strong> ')
+            infoWindow.open(map, marker);
+            console.log('too fast')
+        }
+
+        previousMapClickTime = currentTime;
+
     })
 
-    autocomplete.addListener('place_changed', () => {
-        let searchResult = autocomplete.getPlace();
 
-        geocoder.geocode({location: searchResult.geometry.location}).then((response) => {
-            // even with strict bounds, still can have error
-            if (cincylatLngBounds.contains(searchResult.geometry.location)){
-                marker.setPosition(searchResult.geometry.location);
-                handleMarkerPlacementResult(response, searchResult.geometry.location)
-            }else{
-                outOfBoundsError('MARKER_SET')
-            }
-        })
+    var previousSearchLocationTime = 0;
+
+    autocomplete.addListener('place_changed', () => {
+
+        const currentTime = Date.now();
+        if (currentTime - previousSearchLocationTime >= 5000) {
+
+            let searchResult = autocomplete.getPlace();
+
+            geocoder.geocode({location: searchResult.geometry.location}).then((response) => {
+                // even with strict bounds, still can have error
+                if (cincylatLngBounds.contains(searchResult.geometry.location)){
+                    handleMarkerPlacementResult(response, searchResult.geometry.location, false)
+                }else{
+                    outOfBoundsError('MARKER_SET')
+                }
+            })
+        }else{
+            marker.setPosition(map.getCenter())
+            infoWindow.setContent('<strong>Woah! Slow down!' +
+                ' <br>You\'re sending too many request.<br> </strong> ')
+            infoWindow.open(map, marker);
+            console.log('too fast')
+        }
+        let x = currentTime - previousSearchLocationTime;
+        console.log('Time since last click: ' + (x) + ' milliseconds');
+        previousSearchLocationTime = currentTime;
+
     });
 
 
