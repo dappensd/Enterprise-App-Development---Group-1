@@ -276,5 +276,49 @@ window.onload = function() {
 
     });
 
+};
 
+
+const cincinnatiLatLng = {
+    lat: 39.103119,
+    lng: -84.512016
+}
+var mapStyles;
+var map;
+var currentLocationButton;
+
+function initMap() {
+    mapStyles  = [
+        {
+            featureType: "all",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        },
+        {
+            featureType: "road",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }]
+        }]
+
+    const mapDiv = document.getElementById('map');
+
+    map = new google.maps.Map(mapDiv, {
+        center: cincinnatiLatLng,
+        zoom: 13,
+        draggableCursor: 'pointer',
+        fullscreenControl: false,
+        streetViewControl: false,
+        minZoom: 1,
+        mapTypeControl: false,
+        gestureHandling: "greedy",
+        styles: mapStyles
+    });
+
+    currentLocationButton = document.createElement("button");
+    currentLocationButton.id = "current-location-button";
+    currentLocationButton.textContent = "Use Current Location";
+    currentLocationButton.className = 'btn btn-secondary'
+    currentLocationButton.type = 'button'
+
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(currentLocationButton);
 }
