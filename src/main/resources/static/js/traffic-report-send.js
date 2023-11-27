@@ -224,7 +224,6 @@ window.onload = function() {
                 lng: event.latLng.lng()
             }
             geocoder.geocode({location: clickedLatLng}).then((response) => {
-                console.log('here')
                 if (cincylatLngBounds.contains(clickedLatLng)) {
                     marker.setPosition(event.latLng);
                     handleMarkerPlacementResult(response, event.latLng, false)
@@ -238,7 +237,6 @@ window.onload = function() {
             infoWindow.setContent('<strong>Woah! Slow down!' +
                 ' <br>You\'re sending too many request.<br> </strong> ')
             infoWindow.open(map, marker);
-            console.log('too fast')
         }
 
         previousMapClickTime = currentTime;
@@ -268,12 +266,8 @@ window.onload = function() {
             infoWindow.setContent('<strong>Woah! Slow down!' +
                 ' <br>You\'re sending too many request.<br> </strong> ')
             infoWindow.open(map, marker);
-            console.log('too fast')
         }
-        let x = currentTime - previousSearchLocationTime;
-        console.log('Time since last click: ' + (x) + ' milliseconds');
         previousSearchLocationTime = currentTime;
-
     });
 
 };
