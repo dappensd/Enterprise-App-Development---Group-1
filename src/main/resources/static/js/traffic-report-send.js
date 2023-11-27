@@ -169,30 +169,37 @@ window.onload = function() {
     function handleMarkerPlacementResult(response, latLng, isDriving){
 
         // Geocode first result near marker isn't always accurate.
-        // distance calculation below is used to improve accuracy
+        // distance and type check is used to improve accuracy
 
-        let shortestDist = 6371071.0272
+        let shortestDist = Number.MAX_SAFE_INTEGER
         let shortestResult = null;
-        let naturalResultType;
 
         response.results.forEach((result) =>{
             let dist = google.maps.geometry.spherical.computeDistanceBetween(latLng, result.geometry.location);
 
-            // Use to filter out location code i.e (8 + 2 or 4 + 2 char). Dont know how to handle this
-            // Might not  filter roads, routes. Google map sets types varied.
             if (dist < shortestDist && result.types[0] !== 'plus_code'
                 && (result.types[0] === 'street_address' )
-                || result.types[0] === 'route'){
+                || result.types[0] === 'route'
+                || result.types[0] === 'intersection'){
                 shortestDist = dist;
                 shortestResult = result
             }
         })
 
-        let markerOffset = 40
+        let markerOffset = 20
         if (shortestResult != null && shortestDist <= markerOffset) {
+            marker.setPosition(shortestResult.geometry.location);
             infoWindow.setContent(shortestResult.formatted_address)
             infoWindow.open(map, marker);
         }else{
+            if (isDriving){
+                marker.setPosition(latLng)
+                infoWindow.setContent('<strong>Marker detected was too far from a street address. <br></strong> '
+                    + 'Cannot use current location')
+                infoWindow.open(map, marker);
+                return;
+            }
+
             map.panTo(shortestResult.geometry.location)
             marker.setPosition(shortestResult.geometry.location)
             infoWindow.setContent('<strong>Marker detected was too far from a street address. ' +
