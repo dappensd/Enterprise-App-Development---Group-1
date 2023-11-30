@@ -12,15 +12,15 @@ public class TrafficIncident {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int incidentID;
+    private int id;
     private double latitude;
     private double longitude;
     private String description;
     private String severity;
 
     public TrafficIncident() {}
-    public TrafficIncident(int incidentID, double latitude, double longitude, String description, String severity) {
-        this.incidentID = incidentID;
+    public TrafficIncident(int id, double latitude, double longitude, String description, String severity) {
+        this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
