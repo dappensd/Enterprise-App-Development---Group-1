@@ -20,6 +20,71 @@ window.onload = async () => {
     var incidentsMarker = []
     var incidentsInfoWindow = []
 
+    async function updateIncidentsOnMap() {
+
+        const jsonEndPoint = await fetch('/trafficIncidentsJson');
+        const jsonIncidents = await jsonEndPoint.json()
+
+        if (incidentsMarker.length !== jsonIncidents.length) {
+
+            trafficIncidents = jsonIncidents
+
+            for (let i = incidentsMarker.length; i < jsonIncidents.length; i++) {
+
+                latLngs = {
+                    lat: parseFloat(jsonIncidents[i].latitude),
+                    lng: parseFloat(jsonIncidents[i].longitude)
+                }
+
+                incidentsMarker.push(new google.maps.Marker({
+                    map: map,
+                    position: latLngs
+                }))
+
+                isIncidentInfoWindowOpen.push(false)
+
+                incidentsMarker[i].addListener('click', (event) => {
+                    if (!isIncidentInfoWindowOpen[i]){
+                        closeAllIncidentMarkersInfoWindow()
+
+                        incidentsInfoWindow[i].setPosition(event.latLng)
+                        incidentsInfoWindow[i].open(map, incidentsMarker[i]);
+                        isIncidentInfoWindowOpen[i] = true
+
+                    }else{
+                        incidentsInfoWindow[i].close();
+                        isIncidentInfoWindowOpen[i] = false;
+                    }
+                });
+
+                isMarkerInRange.push(false)
+
+                const response = await geocoder.geocode({location: latLngs});
+
+                let content = `
+                <html>
+                    <body>
+                        <h4>Incident Info</h4>
+                        <p><strong>Location: </strong> <br> ${response.results[0].formatted_address} </p>
+                        <p><strong>Severity: </strong> <br> ${jsonIncidents[i].severity} </p>
+                        <p><strong>Description: </strong> <br> ${jsonIncidents[i].description} </p>
+                    </body>
+                </html>
+                `
+
+                incidentsInfoWindow.push(new google.maps.InfoWindow({
+                    content: content
+                }))
+            }
+        }
+    }
+
+    const pageUpdateDelay = 5000
+    setInterval(updateIncidentsOnMap, pageUpdateDelay);
+
+
+
+
 }
 
 
