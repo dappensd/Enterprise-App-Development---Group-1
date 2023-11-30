@@ -82,6 +82,32 @@ window.onload = async () => {
     const pageUpdateDelay = 5000
     setInterval(updateIncidentsOnMap, pageUpdateDelay);
 
+    trafficIncidents.forEach((incident, index) => {
+        incidentsMarker.push(new google.maps.Marker({
+            map: map,
+            position: {lat: incident.latitude, lng: incident.longitude},
+        }))
+    })
+
+    for (const incident of trafficIncidents) {
+        const response = await geocoder.geocode({ location: {lat: incident.latitude, lng: incident.longitude} });
+
+        let content = `
+        <html>
+            <body>
+                <h4>Incident Info</h4>
+                <p><strong>Location: </strong> <br> ${response.results[0].formatted_address} </p>
+                <p><strong>Severity: </strong> <br> ${incident.severity} </p>
+                <p><strong>Description: </strong> <br> ${incident.description} </p>
+            </body>
+        </html>
+        `
+
+        incidentsInfoWindow.push(new google.maps.InfoWindow({
+            content: content
+        }))
+    }
+
 
 
 
