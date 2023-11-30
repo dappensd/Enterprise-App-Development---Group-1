@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = () => {
     document.getElementById("location-search-bar").onkeypress = (event) => {
         if (event.charCode == 13) {
             event.preventDefault();
@@ -69,7 +69,6 @@ window.onload = function() {
 
     var searchResult = document.getElementById('location-search-bar');
     var geocoder = new google.maps.Geocoder();
-    document.getElementById('location-search-bar').value = 'Cincinnati, OH, USA'
 
     var cincinnatiBounds = {
         north: 39.23,
