@@ -153,6 +153,68 @@ window.onload = async () => {
     })
 
 
+    var hasClickedFilterIncidentButton = false
+
+    filterIncidentsButton.addEventListener("click", async () => {
+        if (!hasClickedFilterIncidentButton) {
+            if (endMarker.getVisible() && startMarker.getVisible()) {
+
+                let pathOptions = {
+                    origin: Markers_startLatLng,
+                    destination: Markers_endLatLng,
+                    travelMode: 'DRIVING',
+                    provideRouteAlternatives: true
+                };
+
+                const dsResult = await directionsService.route(pathOptions);
+
+
+                dsResult.routes[0].legs[0].steps.forEach((step) => {
+                    step.lat_lngs.forEach((latLng) => {
+
+                        trafficIncidents.forEach((incident, index) =>{
+
+
+                            const metersToIncident = 30
+                            let dist = google.maps.geometry.spherical.computeDistanceBetween(latLng, {lat: incident.latitude, lng: incident.longitude })
+
+                            if (dist <= metersToIncident && !isMarkerInRange[index]){
+                                isMarkerInRange[index] = true
+                            }
+                        })
+                    })
+                })
+
+                incidentsMarker.forEach((incidentMarker, index) => {
+                    if (!isMarkerInRange[index]) {
+                        incidentMarker.setVisible(false)
+                    }
+                })
+
+                filterIncidentsButton.classList.add("btn-success")
+                filterIncidentsButton.classList.remove("btn-secondary")
+                hasClickedFilterIncidentButton = true
+            }
+
+        } else {
+            if (endMarker.getVisible() && startMarker.getVisible()){
+                incidentsMarker.forEach((incidentMarker, index) => {
+                    if (!isMarkerInRange[index]) {
+                        incidentMarker.setVisible(true)
+                    }
+
+                    isMarkerInRange[index] = false
+                })
+
+                filterIncidentsButton.classList.remove("btn-success")
+                filterIncidentsButton.classList.add("btn-secondary")
+
+                hasClickedFilterIncidentButton = false
+            }
+        }
+    })
+
+
 
 }
 
