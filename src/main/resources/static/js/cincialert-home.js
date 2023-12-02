@@ -214,6 +214,34 @@ window.onload = async () => {
         }
     })
 
+    currentLocationButton.addEventListener("click", () => {
+        navigator.geolocation.getCurrentPosition((position) => {
+                const currentLocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                geocoder.geocode({location: currentLocation}).then((response) => {
+                    let address = response.results[0].formatted_address;
+                    Markers_startLatLng = currentLocation
+                    handleValidMarkerPlacementResult(true,address)
+                    renderStartAndEndPath()
+                })
+
+            }, (error) => {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                    case error.POSITION_UNAVAILABLE:
+                        startMarker.setPosition(map.getCenter())
+                        startInfoWindow.setContent('<strong>Could not detect current location <br></strong> '
+                            + 'Cannot use current location')
+                        startInfoWindow.open(map, marker);
+                }
+            }
+        );
+    })
+
+
 
 
 }
