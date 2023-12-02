@@ -126,6 +126,34 @@ window.onload = async () => {
         suppressMarkers: true
     });
 
+    var isIncidentInfoWindowOpen = []
+
+    incidentsMarker.forEach((marker, index) =>{
+        isIncidentInfoWindowOpen.push(false)
+
+        marker.addListener('click', (event) => {
+            if (!isIncidentInfoWindowOpen[index]){
+                closeAllIncidentMarkersInfoWindow()
+
+                incidentsInfoWindow[index].setPosition(event.latLng)
+                incidentsInfoWindow[index].open(map, marker);
+                isIncidentInfoWindowOpen[index] = true
+
+            }else{
+                incidentsInfoWindow[index].close();
+                isIncidentInfoWindowOpen[index] = false;
+            }
+        });
+    })
+
+    let isMarkerInRange = []
+
+    trafficIncidents.forEach((incident) =>{
+        isMarkerInRange.push(false)
+    })
+
+
+
 }
 
 
