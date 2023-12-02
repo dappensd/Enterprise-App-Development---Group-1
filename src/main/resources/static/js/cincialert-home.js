@@ -108,8 +108,23 @@ window.onload = async () => {
         }))
     }
 
+    var startMarker = new google.maps.Marker({
+        map: map,
+        draggable: true,
+        icon: 'https://maps.google.com/mapfiles/marker_green.png'
 
+    });
 
+    var endMarker = new google.maps.Marker({
+        map: map,
+        draggable: true,
+        icon: 'https://maps.google.com/mapfiles/marker_orange.png'
+    });
+
+    var directionsService = new google.maps.DirectionsService();
+    var directionsRenderer = new google.maps.DirectionsRenderer({
+        suppressMarkers: true
+    });
 
 }
 
