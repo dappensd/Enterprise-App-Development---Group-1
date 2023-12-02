@@ -373,10 +373,68 @@ window.onload = async () => {
 
 
 
+    var previousSearchLocationTime = 0;
 
+    const autoCompleteSearchDelay = 5000;
 
+    startSearchAutocomplete.addListener('place_changed', () => {
 
+        const currentTime = Date.now();
+        if (currentTime - previousSearchLocationTime >= autoCompleteSearchDelay) {
 
+            if (hasClickedFilterIncidentButton){
+                filterIncidentsButton.dispatchEvent(new Event('click'));
+            }
+
+            let searchResult = startSearchAutocomplete.getPlace();
+
+            geocoder.geocode({location: searchResult.geometry.location}).then((response) => {
+                let isDestinationSearchBarEmpty = (document.getElementById('location-destination-bar').value === '');
+                let address = response.results[0].formatted_address;
+                Markers_startLatLng = searchResult.geometry.location;
+                handleValidMarkerPlacementResult(true, address)
+
+                if(!isDestinationSearchBarEmpty){
+                    renderStartAndEndPath()
+                }
+
+            })
+        } else {
+            createDebounceWarning(startMarker,startInfoWindow, map.getCenter())
+        }
+        previousSearchLocationTime = currentTime;
+    });
+
+    endSearchAutocomplete.addListener('place_changed', () => {
+
+        const currentTime = Date.now();
+
+        if (currentTime - previousSearchLocationTime >= autoCompleteSearchDelay) {
+
+            if (hasClickedFilterIncidentButton){
+                filterIncidentsButton.dispatchEvent(new Event('click'));
+            }
+
+            let searchResult = endSearchAutocomplete.getPlace();
+
+            geocoder.geocode({location: searchResult.geometry.location}).then((response) => {
+
+                let isStartSearchBarEmpty = (document.getElementById('location-start-bar').value === '');
+
+                Markers_endLatLng = searchResult.geometry.location;
+                let address = response.results[0].formatted_address;
+                handleValidMarkerPlacementResult(false,address)
+
+                if(!isStartSearchBarEmpty){
+                    renderStartAndEndPath()
+                }
+            })
+
+        } else {
+            createDebounceWarning(endMarker,endInfoWindow,map.getCenter())
+        }
+        previousSearchLocationTime = currentTime;
+    });
 
 }
 
