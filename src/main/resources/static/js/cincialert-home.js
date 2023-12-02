@@ -240,6 +240,15 @@ window.onload = async () => {
             }
         );
     })
+    function createDebounceWarning(marker, infoWindow, latLng){
+
+        marker.setPosition(latLng)
+        infoWindow.setContent('<strong>Woah! Slow down!' +
+            ' <br>You\'re sending request too fast.<br> </strong> ')
+        infoWindow.open(map, marker);
+
+    }
+
 
 
 
