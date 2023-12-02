@@ -249,6 +249,21 @@ window.onload = async () => {
 
     }
 
+    function renderStartAndEndPath() {
+
+        let pathOptions = {
+            origin: Markers_startLatLng,
+            destination: Markers_endLatLng,
+            travelMode: 'DRIVING',
+            provideRouteAlternatives: true
+        };
+
+        directionsService.route(pathOptions, (result) => {
+            directionsRenderer.setMap(map);
+            directionsRenderer.setDirections(result);
+        });
+    }
+
 
 
 
