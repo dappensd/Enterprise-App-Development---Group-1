@@ -264,6 +264,31 @@ window.onload = async () => {
         });
     }
 
+    function closeAllIncidentMarkersInfoWindow(){
+        incidentsMarker.forEach((marker, index) =>{
+            if (isIncidentInfoWindowOpen[index]){
+                incidentsInfoWindow[index].close();
+                isIncidentInfoWindowOpen[index] = false;
+            }
+        })
+    }
+    function handleValidMarkerPlacementResult(isStartMarker, address){
+
+        if (isStartMarker){
+            map.panTo(Markers_startLatLng)
+            startMarker.setPosition(Markers_startLatLng)
+            startInfoWindow.setContent('<strong> Start Address <br> </strong> ' + address)
+            startInfoWindow.open(map, startMarker);
+            document.getElementById('location-start-bar').value = address
+        }else{
+            map.panTo(Markers_endLatLng)
+            endMarker.setPosition(Markers_endLatLng)
+            endInfoWindow.setContent('<strong> Destination Address <br> </strong> ' + address)
+            endInfoWindow.open(map, endMarker);
+            document.getElementById('location-destination-bar').value = address
+        }
+    }
+
 
 
 
