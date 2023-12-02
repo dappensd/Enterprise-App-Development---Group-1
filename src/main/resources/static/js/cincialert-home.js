@@ -289,6 +289,23 @@ window.onload = async () => {
         }
     }
 
+    document.getElementById("location-start-bar").addEventListener('input',(event) =>{
+        if (event.target.value === ''){
+            startMarker.setVisible(false)
+            startInfoWindow.close()
+            directionsRenderer.setMap(null);
+        }
+    })
+
+    document.getElementById("location-destination-bar").addEventListener('input',(event) =>{
+        if (event.target.value === ''){
+            endMarker.setVisible(false);
+            endInfoWindow.close()
+            directionsRenderer.setMap(null);
+        }
+    })
+
+
 
 
 
