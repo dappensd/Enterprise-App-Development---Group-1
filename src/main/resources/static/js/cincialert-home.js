@@ -305,6 +305,74 @@ window.onload = async () => {
         }
     })
 
+    var previousMapClickTime = 0;
+    const mapClickDelay = 2000
+
+    map.addListener('click', (event) => {
+        const currentTime = Date.now();
+
+
+        if (hasClickedFilterIncidentButton){
+            filterIncidentsButton.dispatchEvent(new Event('click'));
+        }
+
+        closeAllIncidentMarkersInfoWindow()
+
+        let clickedLatLng = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng()
+        }
+
+        if (currentTime - previousMapClickTime >= mapClickDelay) {
+
+            geocoder.geocode({location: clickedLatLng}).then((response) => {
+
+                let address = null;
+
+                if (response.results[0].types[0] === 'plus_code') {
+                    address = response.results[0].formatted_address.substr(8);
+                } else {
+                    address = response.results[0].formatted_address
+                }
+
+                let isStartSearchBarEmpty = (document.getElementById('location-start-bar').value === '');
+                let isDestinationSearchBarEmpty = (document.getElementById('location-destination-bar').value === '');
+
+                if (isStartSearchBarEmpty) {
+                    startMarker.setVisible(true)
+                    Markers_startLatLng = clickedLatLng;
+
+                    handleValidMarkerPlacementResult(true,address)
+                    if (!isDestinationSearchBarEmpty){
+                        renderStartAndEndPath()
+                    }
+
+                } else {
+                    endMarker.setVisible(true);
+                    Markers_endLatLng = clickedLatLng
+
+                    handleValidMarkerPlacementResult(false,address)
+                    renderStartAndEndPath()
+                }
+
+            })
+        } else {
+            let isStartSearchBarEmpty = (document.getElementById('location-start-bar').value === '');
+
+            if (isStartSearchBarEmpty) {
+                startMarker.setVisible(true)
+                createDebounceWarning(startMarker,startInfoWindow, clickedLatLng)
+            }else{
+                endMarker.setVisible(true)
+                createDebounceWarning(endMarker,endInfoWindow, clickedLatLng)
+            }
+        }
+
+        previousMapClickTime = currentTime;
+    })
+
+
+
 
 
 
