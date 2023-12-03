@@ -93,6 +93,7 @@ window.onload = () => {
     });
 
     // use to draw outline / testing boundary
+
     var cincyRect = new google.maps.Rectangle({
         bounds: cincinnatiBounds,
         strokeColor: "red",
@@ -166,51 +167,52 @@ window.onload = () => {
     })
 
     function handleMarkerPlacementResult(response, latLng, isDriving){
-
-        // Geocode first result near marker isn't always accurate.
-        // distance and type check is used to improve accuracy
-
         let shortestDist = Number.MAX_SAFE_INTEGER
-        let shortestResult = null;
+        let secondShortest = Number.MAX_SAFE_INTEGER
+        let shortestResult;
+
+
+        let plusCodeDisplayAddress = null;
 
         response.results.forEach((result) =>{
-            let dist = google.maps.geometry.spherical.computeDistanceBetween(latLng, result.geometry.location);
+            let distance = google.maps.geometry.spherical.computeDistanceBetween(latLng, result.geometry.location);
 
-            if (dist < shortestDist && result.types[0] !== 'plus_code'
-                && (result.types[0] === 'street_address' )
-                || result.types[0] === 'route'
-                || result.types[0] === 'intersection'){
-                shortestDist = dist;
-                shortestResult = result
+            if (distance < shortestDist){
+                shortestDist = distance;
+                shortestResult = result;
             }
+
+            // google api sometimes uses street address type for plus code
+            let hasPlusCodeLength = result.formatted_address.split(' ')[0].length === 7
+            let containsPlus = result.formatted_address.split(' ')[0].includes('+')
+
+            // Used to set display address of plus code - second best result
+
+            if (distance < secondShortest && !hasPlusCodeLength && !containsPlus){
+                secondShortest = distance;
+                plusCodeDisplayAddress = result.formatted_address
+            }
+
         })
 
-        let markerOffset = 20
-        if (shortestResult != null && shortestDist <= markerOffset) {
-            marker.setPosition(shortestResult.geometry.location);
-            infoWindow.setContent(shortestResult.formatted_address)
-            infoWindow.open(map, marker);
-        }else{
-            if (isDriving){
-                marker.setPosition(latLng)
-                infoWindow.setContent('<strong>Marker detected was too far from a street address. <br></strong> '
-                    + 'Cannot use current location')
-                infoWindow.open(map, marker);
-                return;
-            }
 
-            map.panTo(shortestResult.geometry.location)
-            marker.setPosition(shortestResult.geometry.location)
-            infoWindow.setContent('<strong>Marker detected was too far from a street address. ' +
-                ' <br>Marker Readjusting to... <br> </strong> ' + shortestResult.formatted_address)
-            infoWindow.open(map, marker);
+        let hasPlusCodeLength = shortestResult.formatted_address.split(' ')[0].length === 7
+        let containsPlus = shortestResult.formatted_address.split(' ')[0].includes('+')
+
+        if (hasPlusCodeLength && containsPlus){
+            infoWindow.setContent(plusCodeDisplayAddress)
+            document.getElementById('location-search-bar').value = plusCodeDisplayAddress
+
+        }else{
+            infoWindow.setContent(shortestResult.formatted_address)
+            document.getElementById('location-search-bar').value = shortestResult.formatted_address
         }
 
-        document.getElementById('location-search-bar').value = shortestResult.formatted_address
+        marker.setPosition(shortestResult.geometry.location);
+        infoWindow.open(map, marker);
         document.getElementById('latitude').value = shortestResult.geometry.location.lat()
         document.getElementById('longitude').value = shortestResult.geometry.location.lng()
     }
-
 
     var previousMapClickTime = 0;
 
@@ -224,17 +226,16 @@ window.onload = () => {
             }
             geocoder.geocode({location: clickedLatLng}).then((response) => {
                 if (cincylatLngBounds.contains(clickedLatLng)) {
-                    marker.setPosition(event.latLng);
                     handleMarkerPlacementResult(response, event.latLng, false)
-
                 }else{
+                    handleMarkerPlacementResult(response, event.latLng, false)
                     outOfBoundsError('MARKER_SET')
                 }
             })
         }else{
             marker.setPosition(event.latLng)
             infoWindow.setContent('<strong>Woah! Slow down!' +
-                ' <br>You\'re sending too many request.<br> </strong> ')
+                ' <br>You\'re sending request too fast.<br> </strong> ')
             infoWindow.open(map, marker);
         }
 
@@ -263,7 +264,7 @@ window.onload = () => {
         }else{
             marker.setPosition(map.getCenter())
             infoWindow.setContent('<strong>Woah! Slow down!' +
-                ' <br>You\'re sending too many request.<br> </strong> ')
+                ' <br>You\'re sending requests too fast.<br> </strong> ')
             infoWindow.open(map, marker);
         }
         previousSearchLocationTime = currentTime;
