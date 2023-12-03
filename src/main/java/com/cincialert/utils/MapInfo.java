@@ -1,6 +1,7 @@
 package com.cincialert.utils;
 
 import com.cincialert.dto.TrafficIncident;
+import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 
 import java.util.List;
@@ -47,6 +48,29 @@ public class MapInfo {
         }
         return false;
     }
+
+    public static boolean isCoordinateTooFarFromStreet(GeocodingResult[] results, LatLng reportLatLng){
+        double shortestDistance = Double.MAX_VALUE;
+
+        for (var result :  results){
+            boolean isStreetType = (result.types[0].toString().equals("street_address")
+                    || result.types[0].toString().equals("intersection")
+                    || result.types[0].toString().equals("route")
+                    || result.types[0].toString().equals("establishment"));
+
+            double distance = MapInfo.getDistanceBetweenPoints(result.geometry.location, reportLatLng);
+
+            boolean isCloseToStreet =  distance < shortestDistance;
+
+            if (isCloseToStreet && isStreetType){
+                shortestDistance = distance;
+            }
+        }
+
+        final double markerOffset = 30;
+        return shortestDistance > markerOffset;
+    }
+
 
 
 
