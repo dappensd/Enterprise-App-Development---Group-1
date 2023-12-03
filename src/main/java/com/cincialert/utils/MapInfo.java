@@ -1,6 +1,9 @@
 package com.cincialert.utils;
 
+import com.cincialert.dto.TrafficIncident;
 import com.google.maps.model.LatLng;
+
+import java.util.List;
 
 public class MapInfo {
     public static boolean isCoordinateWithinCincy(LatLng position) {
@@ -31,6 +34,21 @@ public class MapInfo {
 
         return distance;
     }
+
+    public static boolean isReportIncidentNearOtherIncident(LatLng reportedIncidentLatLng, List<TrafficIncident> incidents){
+        final double maxIncidentOffset = 20;
+
+        for (var incident : incidents){
+            LatLng incidentCoordinate = new LatLng(incident.getLatitude(), incident.getLongitude());
+
+            if (MapInfo.getDistanceBetweenPoints(incidentCoordinate, reportedIncidentLatLng) < maxIncidentOffset){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 
 
 }
