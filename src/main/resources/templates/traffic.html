@@ -2,16 +2,77 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
-<head>
-    <meta charset="UTF-8">
-    <title>CinciAlert</title>
-</head>
-<body>
-<div layout:fragment="content">
-    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-        <h1>CinciAlert</h1>
-        <p><i>This is a placeholder for the traffic page.</i></p>
+    <head>
+        <title>Home - Traffic</title>
+        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script th:src="@{/js/traffic-report-send.js}"></script>
+    </head>
+    <body>
+    <div layout:fragment="content">
+    <div class="alert-overlay alert alert-danger alert-dismissible fade hide d-none" role="alert" id="submit-form-alert">
+            <h4 class="alert-heading">Hey!</h4>
+            <p id="alert-info">Please fill out the following fields below.</p>
+            <button id="close-error" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert-overlay alert alert-success alert-dismissible fade hide d-none" role="alert" id="submit-form-sucess">
+            <h4 class="alert-heading">Well Done!</h4>
+            <p id="alert-sucess-info">Your ticket has sucessfully been submitted. <br> And is now waiting for review </p>
+            <hr>
+            <h5>Your Ticket Receipt</h5>
+            <p id="location-input"></p>
+            <p id="description-input"></p>
+            <p id="severity-input"></p>
+            <hr>
+            * The review process ensures all traffic incident data is accurate.
+            <button id="close-success" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <main>
+            <form action="#" id="main-form" th:action="@{/createReport}" th:object="${trafficIncident}" method="GET" target="formSubmitFrame">
+                <div class="input-group p-5 mt-5">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Cinci Search</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="default" aria-describedby="default" id="location-search-bar">
+                </div>
+
+                <div class="mb-3" id="map" style="width: 100%; height: 400px;"></div>
+
+                <div class="input-group mb-3 px-5" id="description-area">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="description-label">Description</span>
+                    </div>
+                    <textarea id="description" class="form-control" aria-label="With textarea" th:field="*{description}"></textarea>
+                </div>
+
+                <div class="input-group mb-3 px-5" id="severity-level-area">
+                    <div class="input-group-prepend">
+                        <label id="severity-level-label" class="input-group-text" for="severity-level">Severity Level</label>
+                    </div>
+                    <select class="custom-select" id="severity-level" th:field="*{severity}">
+                        <option value="default">Choose one...</option>
+                        <option value="fatal">Fatal</option>
+                        <option value="serious">Serious</option>
+                        <option value="light">Light</option>
+                    </select>
+                </div>
+                <input id="longitude" style="display: none; visibility: hidden" name="description" th:field="*{longitude}"/>
+                <input id="latitude" style="display: none; visibility: hidden " name="description" th:field="*{latitude}"/>
+
+                <div class="d-flex flex-row justify-content-center pt-3">
+                <button id="submit-button" type="submit" class="btn btn-sm btn-primary" value="0">Submit Report</button>
+                </div>
+            </form>
+            <iframe name="formSubmitFrame"  class="d-none"></iframe>
+        </main>
+        <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap" async defer></script>
     </div>
-</div>
-</body>
+    </body>
 </html>

@@ -24,11 +24,11 @@ public class TrafficIncidentController {
     @Autowired
     ITrafficIncidentService incidentService;
 
-    @RequestMapping("/submitIncident")
+    @RequestMapping("/traffic")
     public String sendReportPage(Model model)  {
 
         model.addAttribute(new TrafficIncident());
-        return "traffic-report-send";
+        return "traffic";
     }
     @RequestMapping("/login")
     public String login() { return "login"; }
@@ -69,7 +69,7 @@ public class TrafficIncidentController {
         List<TrafficIncident> trafficIncidents = incidentService.fetchAll();
         model.addAttribute("trafficIncidents", trafficIncidents);
 
-        return "cincialert-home";
+        return "home";
     }
 
     @GetMapping("/trafficIncidentsJson")

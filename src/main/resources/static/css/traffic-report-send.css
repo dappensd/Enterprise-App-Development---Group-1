@@ -3,21 +3,28 @@
     outline: none;
 }
 
-.slide-down {
-    animation: slideDown 0.5s ease;
+.slide-up {
+    animation: slideUp 0.5s ease;
 }
 
-@keyframes slideDown {
-    0% {
-        transform: translateY(-100%);
+@keyframes slideUp {
+    0%,
+    50% {
+        transform: translateY(100%);
+        opacity: 0;
     }
+
+    60%,
     100% {
         transform: translateY(0);
+        opacity: 1;
+
     }
 }
 
 .alert-overlay {
     position:fixed;
-    z-index: 10;
+    bottom:0;
+    z-index: 999;
     width: 100%;
 }

@@ -39,7 +39,7 @@ window.onload = () => {
             }
 
             $("#submit-form-alert").removeClass("d-none");
-            $("#submit-form-alert").addClass("slide-down");
+            $("#submit-form-alert").addClass("slide-up");
             $(".overlay").fadeIn();
             $("#submit-form-alert").addClass("fade show");
             event.preventDefault();
@@ -59,7 +59,7 @@ window.onload = () => {
             $('#severity-input').text('Severity: ' + $('#severity-level').val());
 
             $("#submit-form-sucess").removeClass("d-none");
-            $("#submit-form-sucess").addClass("slide-down");
+            $("#submit-form-sucess").addClass("slide-up");
             $(".overlay").fadeIn();
             $("#submit-form-sucess").addClass("fade show");
         }
