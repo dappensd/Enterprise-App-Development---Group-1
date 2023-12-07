@@ -30,6 +30,10 @@ public class TrafficIncidentController {
         model.addAttribute(new TrafficIncident());
         return "traffic-report-send";
     }
+    @RequestMapping("/login")
+    public String login() { return "login"; }
+    @RequestMapping("/signup")
+    public String signup() { return "signup"; }
 
     @RequestMapping("/createReport")
     public ResponseEntity createReport(TrafficIncident report) {

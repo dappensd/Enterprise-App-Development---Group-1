@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - CinciAlert</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div layout:fragment="content">
     <div class="signup-container">
         <div class="signup-title">Create a CinciAlert Account</div>
-
         <form class="signup-form" action="/submit_signup" method="post">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required>
@@ -23,8 +24,12 @@
             <button type="submit" class="login-btn">Sign Up</button>
         </form>
         <div class="signup-footer">
-            Already have an account? <a href="login.html">Login here</a>.
+            Already have an account?
+            <a class="nav-link" aria-current="page" th:href="@{/login}">
+                <button class="btn btn-primary btn-sm" type="submit">Login</button>
+            </a>
         </div>
     </div>
+</div>
 </body>
 </html>
