@@ -9,25 +9,38 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="signup-container">
-        <div class="signup-title">Create a CinciAlert Account</div>
-        <form class="signup-form" action="/submit_signup" method="post">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-
-            <label for="confirm-password">Confirm Password:</label>
-            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
-
-            <button type="submit" class="login-btn">Sign Up</button>
-        </form>
-        <div class="signup-footer">
-            Already have an account?
-            <a class="nav-link" aria-current="page" th:href="@{/login}">
-                <button class="btn btn-primary btn-sm" type="submit">Login</button>
-            </a>
+    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+        <div class="border border-2 rounded bg-light shadow-lg p-5 mt-5">
+            <div class="pb-2">
+                <h2>Sign Up</h2>
+            </div>
+            <hr>
+            <div class="p-2 pt-3 px-5 d-flex flex-row-3 justify-content-center">
+                <div class="px-5 pb-2 col-sm">
+                    <form method="post" th:action="@{/users/add}">
+                        <div class="form-group my-2">
+                            <label for="userName">Username:</label>
+                            <input type="text" class="form-control" name="userName" id="userName">
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" name="password" id="password">
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="email">E-mail:</label>
+                            <input type="text" class="form-control" name="email" id="email">
+                        </div>
+                        <div class="form-group my-2">
+                            <label for="address">Address:</label>
+                            <input type="text" class="form-control" name="address" id="address">
+                        </div>
+                        <div class="d-flex flex-row justify-content-end gap-2 pt-3">
+                            <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr>
         </div>
     </div>
 </div>

@@ -4,21 +4,34 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login Page</title>
-        <link rel="stylesheet" href="style.css">
+        <title>Login - CinciAlert</title>
     </head>
     <body>
     <div layout:fragment="content">
-        <div class="login-container">
-            <div class="login-title">CINCI ALERT</div>
-            <div class="login-form">
-                <input type="text" placeholder="Enter your email">
-                <input type="password" placeholder="Enter your password">
-                <div class="forgot-password"><a href="#">Forgot Password</a></div>
-                <button class="login-btn">Login</button>
-            </div>
-            <div class="signup-link">
-                <a href="#">Create an Account</a>
+        <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+            <div class="border border-2 rounded bg-light shadow-lg p-5 mt-5">
+                <div class="pb-2">
+                    <h2>Login</h2>
+                </div>
+                <hr>
+                <div class="p-2 pt-3 px-5 d-flex flex-row-3 justify-content-center">
+                    <div class="px-5 pb-2 col-sm">
+                        <form method="post" th:action="@{/users/login}">
+                            <div class="form-group my-2">
+                                <label for="userName">Username:</label>
+                                <input type="text" class="form-control" name="userName" id="userName">
+                            </div>
+                            <div class="form-group my-2">
+                                <label for="password">Password:</label>
+                                <input type="password" class="form-control" name="password" id="password">
+                            </div>
+                            <div class="d-flex flex-row justify-content-end gap-2 pt-3">
+                                <button class="btn btn-sm btn-primary" type="submit">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr>
             </div>
         </div>
     </div>
