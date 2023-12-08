@@ -27,7 +27,7 @@ public class TrafficIncidentController {
     @RequestMapping("/submitIncident")
     public String sendReportPage(Model model)  {
 
-        model.addAttribute(new TrafficIncident(39.2, -85.0));
+        model.addAttribute(new TrafficIncident());
         return "traffic-report-send";
     }
 

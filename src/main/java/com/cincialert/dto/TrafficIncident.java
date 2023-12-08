@@ -18,16 +18,12 @@ public class TrafficIncident {
     private String description;
     private String severity;
 
-    public TrafficIncident(double v, double v1) {}
+    public TrafficIncident() {}
     public TrafficIncident(int id, double latitude, double longitude, String description, String severity) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.description = description;
         this.severity = severity;
-    }
-
-    public TrafficIncident() {
-
     }
 }
