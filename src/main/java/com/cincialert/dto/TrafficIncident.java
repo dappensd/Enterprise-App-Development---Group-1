@@ -26,5 +26,4 @@ public class TrafficIncident {
         this.description = description;
         this.severity = severity;
     }
-
 }
