@@ -1,50 +1,64 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f8f8f8;
+    background-color: #f5f5f5;
 }
 
-.login-container {
-    background-color: white;
+.login-container, .signup-container {
+    background-color: #fff;
     padding: 30px;
     width: 300px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
-.login-title {
+.login-container:hover, .signup-container:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-title, .signup-title {
     font-size: 30px;
     text-align: center;
     margin-bottom: 40px;
+    color: #333;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="email"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    transition: border 0.3s ease;
 }
 
-.login-btn {
-    background-color: black;
-    color: white;
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+    border-color: #333;
+}
+
+.login-btn, .button {
+    background-color: #333;
+    color: #fff;
     padding: 15px;
     border: none;
     width: 100%;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
-    background-color: #333;
+.login-btn:hover, .button:hover {
+    background-color: #555;
 }
 
 .forgot-password {
     text-align: right;
     margin: 10px 0;
+    color: #888;
 }
 
 .home-container {
@@ -53,44 +67,18 @@ input[type="text"], input[type="password"] {
     width: 60%;
     margin: auto;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
 .home-title {
     font-size: 24px;
     margin-bottom: 20px;
+    color: #333;
 }
 
 .home-description {
     margin-bottom: 20px;
-}
-
-.button {
-    display: inline-block;
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    margin: 10px 0;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.button:hover {
-    background-color: #555;
-}
-
-.signup-container {
-    background-color: #ffffff;
-    padding: 30px;
-    width: 400px;
-    margin: auto;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-}
-
-.signup-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
+    color: #666;
 }
 
 .signup-form {
@@ -101,6 +89,7 @@ input[type="text"], input[type="password"] {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #333;
 }
 
 .signup-form input[type="text"],
